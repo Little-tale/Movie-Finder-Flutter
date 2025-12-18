@@ -8,51 +8,125 @@ class TestWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Text('Hello World!'),
-            TextButton(
-              onPressed: () async {
-                final result = await TmdbNetworkManager.instance.serverTest();
-                print(result);
-              },
-              child: Text('Server Check'),
-            ),
-            TextButton(
-              onPressed: () async {
-                final result = await TmdbNetworkManager.instance.getMovieList(
-                  page: 1,
-                );
-                switch (result) {
-                  case Success<List<TmdbMovieDto>>(value: final movies):
-                    print(movies);
-                  case Failure(error: final exception):
-                    print(exception);
-                }
-                print(result);
-              },
-              child: Text('Top List Check'),
-            ),
-            TextButton(
-              onPressed: () async {
-                final result = await TmdbNetworkManager.instance
-                    .getTmdbUpComming(page: 1);
-                switch (result) {
-                  case Success(value: final movies):
-                    print(movies);
-                  case Failure(error: final exception):
-                    print(exception);
-                }
+    return SafeArea(
+      child: Column(
+        children: [
+          Text('Hello World!'),
+          TextButton(
+            onPressed: () async {
+              final result = await TmdbNetworkManager.instance.serverTest();
+              print(result);
+            },
+            child: Text('Server Check'),
+          ),
+          TextButton(
+            onPressed: () async {
+              final result = await TmdbNetworkManager.instance.getMovieList(
+                page: 1,
+              );
+              switch (result) {
+                case Success<List<TmdbMovieDto>>(value: final movies):
+                  print(movies);
+                case Failure(error: final exception):
+                  print(exception);
+              }
+              print(result);
+            },
+            child: Text('Top List Check'),
+          ),
+          TextButton(
+            onPressed: () async {
+              final result = await TmdbNetworkManager.instance.getTmdbUpComming(
+                page: 1,
+              );
+              switch (result) {
+                case Success(value: final movies):
+                  print(movies);
+                case Failure(error: final exception):
+                  print(exception);
+              }
 
-                print(result);
-              },
-              child: Text('UpComings Check'),
-            ),
-          ],
-        ),
+              print(result);
+            },
+            child: Text('UpComings Check'),
+          ),
+        ],
       ),
     );
+    ;
   }
 }
+
+class TestWidget2 extends StatelessWidget {
+  const TestWidget2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        children: [
+          Text('Hello World! 2222'),
+          TextButton(
+            onPressed: () async {
+              final result = await TmdbNetworkManager.instance.serverTest();
+              print(result);
+            },
+            child: Text('Server Check'),
+          ),
+          TextButton(
+            onPressed: () async {
+              final result = await TmdbNetworkManager.instance.getMovieList(
+                page: 1,
+              );
+              switch (result) {
+                case Success<List<TmdbMovieDto>>(value: final movies):
+                  print(movies);
+                case Failure(error: final exception):
+                  print(exception);
+              }
+              print(result);
+            },
+            child: Text('Top List Check'),
+          ),
+          TextButton(
+            onPressed: () async {
+              final result = await TmdbNetworkManager.instance.getTmdbUpComming(
+                page: 1,
+              );
+              switch (result) {
+                case Success(value: final movies):
+                  print(movies);
+                case Failure(error: final exception):
+                  print(exception);
+              }
+
+              print(result);
+            },
+            child: Text('UpComings Check'),
+          ),
+        ],
+      ),
+    );
+    ;
+  }
+}
+
+/*
+class RootPage extends ConsumerWidget {
+  const RootPage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tab = ref.watch(currentTabProvider);
+
+    Widget body = switch (tab) {
+      TabItem.home => const HomePage(),
+      TabItem.search => const SearchPage(),
+    };
+
+    return Scaffold(
+      body: body,
+      bottomNavigationBar: const AppBottomNav(),
+    );
+  }
+  */

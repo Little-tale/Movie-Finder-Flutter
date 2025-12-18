@@ -10,11 +10,13 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^5.9.0
-  retrofit: ^4.9.0 # Data For Network
+  retrofit: 4.9.0 # Data For Network 4.9.0
   logger: ^2.6.0
   json_annotation: ^4.9.0 # Data
   riverpod: ^3.0.3 # 상태관리
   flutter_riverpod: ^3.0.3 # 상태관리
+  riverpod_annotation: ^3.0.3
+
   hooks_riverpod: ^3.0.3 # 상태관리
   freezed_annotation: ^3.1.0 # Data
   go_router: ^17.0.1 # Nav 관리 밑 딥링크등의 관리 라우터 패턴
@@ -37,10 +39,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  retrofit_generator: ^10.0.1 # Data For Network
+  retrofit_generator: ^10.0.0 # Data For Network ..1
   build_runner: ^2.7.1
   json_serializable: ^6.11.2 # Data
   freezed: ^3.2.3 # Data
+  riverpod_generator: ^3.0.3
 
 flutter:
   uses-material-design: true

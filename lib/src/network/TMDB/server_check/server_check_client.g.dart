@@ -2,13 +2,11 @@
 
 part of 'server_check_client.dart';
 
-// dart format off
-
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter
 
 class _ServerCheckClient implements ServerCheckClient {
   _ServerCheckClient(this._dio, {this.baseUrl, this.errorLogger}) {
@@ -42,7 +40,7 @@ class _ServerCheckClient implements ServerCheckClient {
     try {
       _value = TmdbServerCheckDTO.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, _result);
+      errorLogger?.logError(e, s, _options);
       rethrow;
     }
     return _value;
@@ -75,5 +73,3 @@ class _ServerCheckClient implements ServerCheckClient {
     return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }
-
-// dart format on

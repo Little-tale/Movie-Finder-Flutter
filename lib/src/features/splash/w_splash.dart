@@ -20,7 +20,8 @@ class SplashWidget extends ConsumerWidget {
 
     ref.listen<AsyncValue<void>>(_splashDelayProvider, (prev, next) {
       next.whenData((_) {
-        context.goNamed(RouteNames.home);
+        // context.goNamed(RouteNames.home);
+        context.go(Routes.home);
       });
     });
 
