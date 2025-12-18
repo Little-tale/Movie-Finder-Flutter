@@ -25,7 +25,7 @@ GoRouter createRouter() {
               GoRoute(
                 path: Routes.home,
                 name: RouteNames.home,
-                builder: (context, state) => const TestWidget(),
+                builder: (context, state) => const TestWidget(number: 1),
               ),
             ],
           ),
@@ -35,7 +35,7 @@ GoRouter createRouter() {
               GoRoute(
                 name: RouteNames.topRated,
                 path: Routes.topRated,
-                builder: (context, state) => const TestWidget2(),
+                builder: (context, state) => const TestWidget(number: 2),
               ),
             ],
           ),

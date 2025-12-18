@@ -1,44 +1,98 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movie_finder/src/common/app/app_size.dart';
+import 'package:movie_finder/src/common/bottom_bar/w_bottom_nav_button.dart';
 
 enum TabItem {
-  home,
-  search,
+  home(0),
+  search(1);
+
+  final int idx;
+  const TabItem(this.idx);
   // favorites
+
+  String get title {
+    switch (this) {
+      case TabItem.home:
+        return "Home";
+      case TabItem.search:
+        return "Search";
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case TabItem.home:
+        return Icons.home;
+      case TabItem.search:
+        return Icons.search;
+    }
+  }
 }
 
 // MARK: UI
-class AppBottomBar extends ConsumerWidget {
+class AppBottomBar extends StatelessWidget {
   final cornerRadius = 24.0;
-
   final StatefulNavigationShell navigationShell;
 
   const AppBottomBar({super.key, required this.navigationShell});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final currentIndex = navigationShell.currentIndex;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(cornerRadius),
-        topRight: Radius.circular(cornerRadius),
+    return SizedBox(
+      height: context.bottomBarHeight + context.bottomSafeArea,
+      child: _buildBottomBar(context, currentIndex),
+    );
+  }
+
+  Widget _buildBottomBar(BuildContext context, int currentIndex) {
+    final sidePad = context.blockSizeHorizontal * 4; // 최소 패딩
+    const maxBarWidth = 520.0;
+    const maxBarHeight = 80.0;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(sidePad, 0, sidePad, context.bottomSafeArea),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: maxBarWidth,
+            maxHeight: maxBarHeight,
+          ),
+          child: barItems(context, currentIndex),
+        ),
       ),
-      child: BottomNavigationBar(
-        currentIndex: currentIndex,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-        ],
-        onTap: (index) {
-          navigationShell.goBranch(index);
-        },
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        elevation: 1,
-        backgroundColor: Color(0xFFD1F0E4),
+    );
+  }
+
+  Widget barItems(BuildContext context, int currentIndex) {
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+        child: Container(
+          height: context.bottomBarHeight,
+          decoration: BoxDecoration(
+            color: Color(0xFFD1F0E4).withValues(alpha: 0.55),
+            borderRadius: BorderRadius.circular(cornerRadius),
+          ),
+          child: Row(
+            children: TabItem.values
+                .map(
+                  (item) => BottomNavButton(
+                    title: item.title,
+                    icon: item.icon,
+                    index: item.idx,
+                    currentIndex: currentIndex,
+                    onTab: (index) {
+                      navigationShell.goBranch(index);
+                    },
+                  ),
+                )
+                .toList(),
+          ),
+        ),
       ),
     );
   }

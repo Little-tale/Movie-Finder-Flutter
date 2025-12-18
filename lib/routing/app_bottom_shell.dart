@@ -9,8 +9,18 @@ class AppBottomShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: AppBottomBar(navigationShell: navigationShell),
+      // extendBody: true,
+      body: Stack(
+        children: [
+          navigationShell,
+
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: AppBottomBar(navigationShell: navigationShell),
+          ),
+        ],
+      ),
+      // bottomNavigationBar: AppBottomBar(navigationShell: navigationShell),
     );
   }
 }
