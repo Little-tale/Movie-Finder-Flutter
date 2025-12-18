@@ -1,0 +1,61 @@
+name: movie_finder
+description: "Movie Find App"
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: ^5.9.0
+  retrofit: ^4.9.0 # Data For Network
+  logger: ^2.6.0
+  json_annotation: ^4.9.0 # Data
+  riverpod: ^3.0.3 # 상태관리
+  flutter_riverpod: ^3.0.3 # 상태관리
+  hooks_riverpod: ^3.0.3 # 상태관리
+  freezed_annotation: ^3.1.0 # Data
+  go_router: ^17.0.1 # Nav 관리 밑 딥링크등의 관리 라우터 패턴
+  flutter_launcher_icons: ^0.14.4
+
+  # Splash
+  flutter_native_splash: ^2.4.7
+  velocity_x: ^4.3.1
+
+flutter_native_splash:
+  color: "#d1f0e4" # 스플래시 화면의 배경색 설정
+  # image: "assets/logo/icon.png" # 스플래시 화면에 표시될 이미지 설정 (앱 로고)
+  android: true # 안드로이드 플랫폼에 스플래시 화면 적용
+  ios: true # iOS 플랫폼에 스플래시 화면 적용
+  android_12: # Android 12 이상을 위한 추가 설정
+    color: "#d1f0e4" # Android 12 이상 스플래시 화면의 배경색 (흰색)
+    image: "assets/logo/icon.png" # Android 12 이상 스플래시 화면에 표시될 이미지
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  retrofit_generator: ^10.0.1 # Data For Network
+  build_runner: ^2.7.1
+  json_serializable: ^6.11.2 # Data
+  freezed: ^3.2.3 # Data
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/logo/
+
+  fonts:
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/NotoSansKR-Regular.ttf
+        - asset: assets/fonts/NotoSansKR-Bold.ttf
+        - asset: assets/fonts/NotoSansKR-ExtraBold.ttf
+        - asset: assets/fonts/NotoSansKR-ExtraLight.ttf
+        - asset: assets/fonts/NotoSansKR-Light.ttf
+        - asset: assets/fonts/NotoSansKR-Medium.ttf
+        - asset: assets/fonts/NotoSansKR-SemiBold.ttf
+        - asset: assets/fonts/NotoSansKR-Thin.ttf
