@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tmdb_up_comming_dto.dart';
+part of 'tmdb_up_coming_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

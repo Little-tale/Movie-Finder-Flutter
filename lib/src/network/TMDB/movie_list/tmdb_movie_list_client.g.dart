@@ -20,7 +20,7 @@ class _TmdbMovieListClient implements TmdbMovieListClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<TopRatedDTO> getTopRatedMovies({
+  Future<TmdbCommonResultDto<TmdbMovieDto>> getTopRatedMovies({
     required int page,
     String language = 'ko-KR',
   }) async {
@@ -31,7 +31,7 @@ class _TmdbMovieListClient implements TmdbMovieListClient {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<TopRatedDTO>(
+    final _options = _setStreamType<TmdbCommonResultDto<TmdbMovieDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -42,9 +42,12 @@ class _TmdbMovieListClient implements TmdbMovieListClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late TopRatedDTO _value;
+    late TmdbCommonResultDto<TmdbMovieDto> _value;
     try {
-      _value = TopRatedDTO.fromJson(_result.data!);
+      _value = TmdbCommonResultDto<TmdbMovieDto>.fromJson(
+        _result.data!,
+        (json) => TmdbMovieDto.fromJson(json as Map<String, dynamic>),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -78,6 +81,72 @@ class _TmdbMovieListClient implements TmdbMovieListClient {
     late TmdbUpcomingDTO _value;
     try {
       _value = TmdbUpcomingDTO.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<TmdbMovieDetailDto> getMovieDetails({
+    required String movieId,
+    String language = 'ko-KR',
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'language': language};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<TmdbMovieDetailDto>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'movie/${movieId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TmdbMovieDetailDto _value;
+    try {
+      _value = TmdbMovieDetailDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<TmdbCommonResultDto<TmdbMovieDto>> getPopularMovies({
+    required int page,
+    String language = 'ko-KR',
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'language': language,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<TmdbCommonResultDto<TmdbMovieDto>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'movie/popular',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TmdbCommonResultDto<TmdbMovieDto> _value;
+    try {
+      _value = TmdbCommonResultDto<TmdbMovieDto>.fromJson(
+        _result.data!,
+        (json) => TmdbMovieDto.fromJson(json as Map<String, dynamic>),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

@@ -4,6 +4,7 @@ import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_dto.
 part 'top_rated_dto.freezed.dart';
 part 'top_rated_dto.g.dart';
 
+@Deprecated('Use TmdbCommonResultDto instead')
 @freezed
 abstract class TopRatedDTO with _$TopRatedDTO {
   factory TopRatedDTO({
