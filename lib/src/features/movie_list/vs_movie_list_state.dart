@@ -10,5 +10,6 @@ sealed class MovieListScreenState with _$MovieListScreenState {
     required PagedState<SimpleMovieEntity> topRatedItems,
     required PagedState<SimpleMovieEntity> popularItems,
     required PagedState<SimpleMovieEntity> upcomingItems,
+    required PagedState<SimpleMovieEntity> nowPlayingItems,
   }) = _MovieListScreenState;
 }

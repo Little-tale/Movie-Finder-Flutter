@@ -17,43 +17,39 @@ class TopRatedSection extends ConsumerWidget {
 
     return state.when(
       data: (data) {
-        return SliverToBoxAdapter(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              'TOP RATED'.text
-                  .size(24)
-                  .bold
-                  .make()
-                  .pOnly(left: 16, bottom: 8, top: 16),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            'TOP RATED'.text
+                .size(24)
+                .bold
+                .make()
+                .pOnly(left: 16, bottom: 8, top: 16),
 
-              SizedBox(
-                height: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: data.items.length,
-                  itemBuilder: (context, index) {
-                    return TopRatedPosterWidget(
-                      rating: index + 1,
-                      postUrlString: data.items[index].posterUrl,
-                      posterH: 200,
-                      posterW: 140,
-                    );
-                  },
-                ),
+            SizedBox(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: data.items.length,
+                itemBuilder: (context, index) {
+                  return TopRatedPosterWidget(
+                    rating: index + 1,
+                    postUrlString: data.items[index].posterUrl,
+                    posterH: 200,
+                    posterW: 140,
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
       error: (e, _) {
-        return SliverToBoxAdapter(child: Text('$e'));
+        return Text('$e');
       },
-      loading: () => const SliverToBoxAdapter(
-        child: SizedBox(
-          height: 180,
-          child: Center(child: CircularProgressIndicator()),
-        ),
+      loading: () => SizedBox(
+        height: 180,
+        child: Center(child: CircularProgressIndicator()),
       ),
     );
   }

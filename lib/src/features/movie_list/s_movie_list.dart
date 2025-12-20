@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movie_finder/src/common/app/app_size.dart';
+import 'package:movie_finder/src/features/movie_list/sub_widgets/w_now_playing_movie.dart';
 import 'package:movie_finder/src/features/movie_list/sub_widgets/w_popular_movie.dart';
 import 'package:movie_finder/src/features/movie_list/sub_widgets/w_top_rated_section.dart';
 import 'package:movie_finder/src/features/movie_list/sub_widgets/w_upcoming_carousel_movie.dart';
@@ -29,7 +30,8 @@ class _MovieListScreenState extends ConsumerState<MovieListScreen> {
           ),
           SliverToBoxAdapter(child: UpcomingCarouselWidget()),
           PopularMovieWidget(),
-          TopRatedSection(),
+          SliverToBoxAdapter(child: TopRatedSection().pOnly(bottom: 024)),
+          SliverToBoxAdapter(child: NowPlayingWidget()),
           SliverToBoxAdapter(
             child: context.bottomBarWithSafeAreaHeight.heightBox.pOnly(
               bottom: 8,

@@ -53,6 +53,17 @@ final class MovieRepository {
     });
   }
 
+  // MARK: - NowPlaying
+  Future<Result<List<SimpleMovieEntity>>> nowPlaying({
+    required int page,
+    String language = 'ko-KR',
+  }) {
+    return dioGuard<List<SimpleMovieEntity>>(() async {
+      final dto = await _movies.getNowPlaying(page: page, language: language);
+      return MovieMapper.fromDtos(dto);
+    });
+  }
+
   Future<Result<TmdbMovieDetailDto>> details({
     required int movieId,
     String language = 'ko-KR',
