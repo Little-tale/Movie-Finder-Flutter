@@ -23,7 +23,7 @@ final class VmMovieListViewModel extends AsyncNotifier<MovieListScreenState> {
 
     final topRatedResult = await _repo.topRated(page: 1);
     final popularResult = await _repo.popular(page: 1);
-    // final upcomingResult = await _repo.upcoming(page: 1);
+    final upcomingResult = await _repo.upcoming(page: 1);
 
     return MovieListScreenState(
       topRatedItems: PagedState<SimpleMovieEntity>(
@@ -36,6 +36,12 @@ final class VmMovieListViewModel extends AsyncNotifier<MovieListScreenState> {
       ),
       popularItems: PagedState<SimpleMovieEntity>(
         items: _handleResult<SimpleMovieEntity>(popularResult),
+        page: 1,
+        totalPages: 1,
+        isLoadingMore: true,
+      ),
+      upcomingItems: PagedState<SimpleMovieEntity>(
+        items: _handleResult<SimpleMovieEntity>(upcomingResult),
         page: 1,
         totalPages: 1,
         isLoadingMore: true,

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MovieListScreenState {
 
- PagedState<SimpleMovieEntity> get topRatedItems; PagedState<SimpleMovieEntity> get popularItems;
+ PagedState<SimpleMovieEntity> get topRatedItems; PagedState<SimpleMovieEntity> get popularItems; PagedState<SimpleMovieEntity> get upcomingItems;
 /// Create a copy of MovieListScreenState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $MovieListScreenStateCopyWith<MovieListScreenState> get copyWith => _$MovieListS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MovieListScreenState&&(identical(other.topRatedItems, topRatedItems) || other.topRatedItems == topRatedItems)&&(identical(other.popularItems, popularItems) || other.popularItems == popularItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MovieListScreenState&&(identical(other.topRatedItems, topRatedItems) || other.topRatedItems == topRatedItems)&&(identical(other.popularItems, popularItems) || other.popularItems == popularItems)&&(identical(other.upcomingItems, upcomingItems) || other.upcomingItems == upcomingItems));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,topRatedItems,popularItems);
+int get hashCode => Object.hash(runtimeType,topRatedItems,popularItems,upcomingItems);
 
 @override
 String toString() {
-  return 'MovieListScreenState(topRatedItems: $topRatedItems, popularItems: $popularItems)';
+  return 'MovieListScreenState(topRatedItems: $topRatedItems, popularItems: $popularItems, upcomingItems: $upcomingItems)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $MovieListScreenStateCopyWith<$Res>  {
   factory $MovieListScreenStateCopyWith(MovieListScreenState value, $Res Function(MovieListScreenState) _then) = _$MovieListScreenStateCopyWithImpl;
 @useResult
 $Res call({
- PagedState<SimpleMovieEntity> topRatedItems, PagedState<SimpleMovieEntity> popularItems
+ PagedState<SimpleMovieEntity> topRatedItems, PagedState<SimpleMovieEntity> popularItems, PagedState<SimpleMovieEntity> upcomingItems
 });
 
 
-$PagedStateCopyWith<SimpleMovieEntity, $Res> get topRatedItems;$PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems;
+$PagedStateCopyWith<SimpleMovieEntity, $Res> get topRatedItems;$PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems;$PagedStateCopyWith<SimpleMovieEntity, $Res> get upcomingItems;
 
 }
 /// @nodoc
@@ -62,10 +62,11 @@ class _$MovieListScreenStateCopyWithImpl<$Res>
 
 /// Create a copy of MovieListScreenState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? topRatedItems = null,Object? popularItems = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? topRatedItems = null,Object? popularItems = null,Object? upcomingItems = null,}) {
   return _then(_self.copyWith(
 topRatedItems: null == topRatedItems ? _self.topRatedItems : topRatedItems // ignore: cast_nullable_to_non_nullable
 as PagedState<SimpleMovieEntity>,popularItems: null == popularItems ? _self.popularItems : popularItems // ignore: cast_nullable_to_non_nullable
+as PagedState<SimpleMovieEntity>,upcomingItems: null == upcomingItems ? _self.upcomingItems : upcomingItems // ignore: cast_nullable_to_non_nullable
 as PagedState<SimpleMovieEntity>,
   ));
 }
@@ -86,6 +87,15 @@ $PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems {
   
   return $PagedStateCopyWith<SimpleMovieEntity, $Res>(_self.popularItems, (value) {
     return _then(_self.copyWith(popularItems: value));
+  });
+}/// Create a copy of MovieListScreenState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PagedStateCopyWith<SimpleMovieEntity, $Res> get upcomingItems {
+  
+  return $PagedStateCopyWith<SimpleMovieEntity, $Res>(_self.upcomingItems, (value) {
+    return _then(_self.copyWith(upcomingItems: value));
   });
 }
 }
@@ -166,10 +176,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PagedState<SimpleMovieEntity> topRatedItems,  PagedState<SimpleMovieEntity> popularItems)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PagedState<SimpleMovieEntity> topRatedItems,  PagedState<SimpleMovieEntity> popularItems,  PagedState<SimpleMovieEntity> upcomingItems)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MovieListScreenState() when $default != null:
-return $default(_that.topRatedItems,_that.popularItems);case _:
+return $default(_that.topRatedItems,_that.popularItems,_that.upcomingItems);case _:
   return orElse();
 
 }
@@ -187,10 +197,10 @@ return $default(_that.topRatedItems,_that.popularItems);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PagedState<SimpleMovieEntity> topRatedItems,  PagedState<SimpleMovieEntity> popularItems)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PagedState<SimpleMovieEntity> topRatedItems,  PagedState<SimpleMovieEntity> popularItems,  PagedState<SimpleMovieEntity> upcomingItems)  $default,) {final _that = this;
 switch (_that) {
 case _MovieListScreenState():
-return $default(_that.topRatedItems,_that.popularItems);}
+return $default(_that.topRatedItems,_that.popularItems,_that.upcomingItems);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -204,10 +214,10 @@ return $default(_that.topRatedItems,_that.popularItems);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PagedState<SimpleMovieEntity> topRatedItems,  PagedState<SimpleMovieEntity> popularItems)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PagedState<SimpleMovieEntity> topRatedItems,  PagedState<SimpleMovieEntity> popularItems,  PagedState<SimpleMovieEntity> upcomingItems)?  $default,) {final _that = this;
 switch (_that) {
 case _MovieListScreenState() when $default != null:
-return $default(_that.topRatedItems,_that.popularItems);case _:
+return $default(_that.topRatedItems,_that.popularItems,_that.upcomingItems);case _:
   return null;
 
 }
@@ -219,11 +229,12 @@ return $default(_that.topRatedItems,_that.popularItems);case _:
 
 
 class _MovieListScreenState implements MovieListScreenState {
-   _MovieListScreenState({required this.topRatedItems, required this.popularItems});
+   _MovieListScreenState({required this.topRatedItems, required this.popularItems, required this.upcomingItems});
   
 
 @override final  PagedState<SimpleMovieEntity> topRatedItems;
 @override final  PagedState<SimpleMovieEntity> popularItems;
+@override final  PagedState<SimpleMovieEntity> upcomingItems;
 
 /// Create a copy of MovieListScreenState
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +246,16 @@ _$MovieListScreenStateCopyWith<_MovieListScreenState> get copyWith => __$MovieLi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MovieListScreenState&&(identical(other.topRatedItems, topRatedItems) || other.topRatedItems == topRatedItems)&&(identical(other.popularItems, popularItems) || other.popularItems == popularItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MovieListScreenState&&(identical(other.topRatedItems, topRatedItems) || other.topRatedItems == topRatedItems)&&(identical(other.popularItems, popularItems) || other.popularItems == popularItems)&&(identical(other.upcomingItems, upcomingItems) || other.upcomingItems == upcomingItems));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,topRatedItems,popularItems);
+int get hashCode => Object.hash(runtimeType,topRatedItems,popularItems,upcomingItems);
 
 @override
 String toString() {
-  return 'MovieListScreenState(topRatedItems: $topRatedItems, popularItems: $popularItems)';
+  return 'MovieListScreenState(topRatedItems: $topRatedItems, popularItems: $popularItems, upcomingItems: $upcomingItems)';
 }
 
 
@@ -255,11 +266,11 @@ abstract mixin class _$MovieListScreenStateCopyWith<$Res> implements $MovieListS
   factory _$MovieListScreenStateCopyWith(_MovieListScreenState value, $Res Function(_MovieListScreenState) _then) = __$MovieListScreenStateCopyWithImpl;
 @override @useResult
 $Res call({
- PagedState<SimpleMovieEntity> topRatedItems, PagedState<SimpleMovieEntity> popularItems
+ PagedState<SimpleMovieEntity> topRatedItems, PagedState<SimpleMovieEntity> popularItems, PagedState<SimpleMovieEntity> upcomingItems
 });
 
 
-@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get topRatedItems;@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems;
+@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get topRatedItems;@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems;@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get upcomingItems;
 
 }
 /// @nodoc
@@ -272,10 +283,11 @@ class __$MovieListScreenStateCopyWithImpl<$Res>
 
 /// Create a copy of MovieListScreenState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? topRatedItems = null,Object? popularItems = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? topRatedItems = null,Object? popularItems = null,Object? upcomingItems = null,}) {
   return _then(_MovieListScreenState(
 topRatedItems: null == topRatedItems ? _self.topRatedItems : topRatedItems // ignore: cast_nullable_to_non_nullable
 as PagedState<SimpleMovieEntity>,popularItems: null == popularItems ? _self.popularItems : popularItems // ignore: cast_nullable_to_non_nullable
+as PagedState<SimpleMovieEntity>,upcomingItems: null == upcomingItems ? _self.upcomingItems : upcomingItems // ignore: cast_nullable_to_non_nullable
 as PagedState<SimpleMovieEntity>,
   ));
 }
@@ -297,6 +309,15 @@ $PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems {
   
   return $PagedStateCopyWith<SimpleMovieEntity, $Res>(_self.popularItems, (value) {
     return _then(_self.copyWith(popularItems: value));
+  });
+}/// Create a copy of MovieListScreenState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PagedStateCopyWith<SimpleMovieEntity, $Res> get upcomingItems {
+  
+  return $PagedStateCopyWith<SimpleMovieEntity, $Res>(_self.upcomingItems, (value) {
+    return _then(_self.copyWith(upcomingItems: value));
   });
 }
 }

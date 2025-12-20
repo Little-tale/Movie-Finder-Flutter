@@ -37,4 +37,10 @@ abstract class TmdbMovieListClient {
     @Query('page') required int page,
     @Query('language') String language = 'ko-KR',
   });
+
+  @GET('movie/now_playing')
+  Future<TmdbCommonResultDto<TmdbMovieDto>> getNowPlaying({
+    @Query('page') required int page,
+    @Query('language') String language = 'ko-KR',
+  });
 }

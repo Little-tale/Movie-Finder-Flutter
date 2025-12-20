@@ -32,4 +32,8 @@ extension ContextInsetsX on BuildContext {
 
     return math.max(padding, gesture);
   }
+
+  double get bottomBarWithSafeAreaHeight {
+    return bottomBarHeight + bottomSafeArea;
+  }
 }

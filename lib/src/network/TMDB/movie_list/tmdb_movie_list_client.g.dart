@@ -154,6 +154,42 @@ class _TmdbMovieListClient implements TmdbMovieListClient {
     return _value;
   }
 
+  @override
+  Future<TmdbCommonResultDto<TmdbMovieDto>> getNowPlaying({
+    required int page,
+    String language = 'ko-KR',
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'language': language,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<TmdbCommonResultDto<TmdbMovieDto>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'movie/now_playing',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TmdbCommonResultDto<TmdbMovieDto> _value;
+    try {
+      _value = TmdbCommonResultDto<TmdbMovieDto>.fromJson(
+        _result.data!,
+        (json) => TmdbMovieDto.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
