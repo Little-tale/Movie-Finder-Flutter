@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:movie_finder/routing/app_bottom_shell.dart';
 import 'package:movie_finder/routing/routes.dart';
+import 'package:movie_finder/src/features/movie_list/s_movie_list.dart';
 import 'package:movie_finder/src/features/splash/w_splash.dart';
 import 'package:movie_finder/w_test.dart';
 
@@ -25,7 +26,7 @@ GoRouter createRouter() {
               GoRoute(
                 path: Routes.home,
                 name: RouteNames.home,
-                builder: (context, state) => const TestWidget(number: 1),
+                builder: (context, state) => const MovieListScreen(),
               ),
             ],
           ),

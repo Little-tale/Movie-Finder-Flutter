@@ -27,6 +27,20 @@ final class MovieRepository {
     });
   }
 
+  // MARK: - Popular
+  Future<Result<List<SimpleMovieEntity>>> popular({
+    required int page,
+    String language = 'ko-KR',
+  }) {
+    return dioGuard<List<SimpleMovieEntity>>(() async {
+      final dto = await _movies.getPopularMovies(
+        page: page,
+        language: language,
+      );
+      return MovieMapper.fromDtos(dto);
+    });
+  }
+
   Future<Result<TmdbUpcomingDTO>> upcoming({
     required int page,
     String language = 'ko-KR',
@@ -45,15 +59,6 @@ final class MovieRepository {
         movieId: movieId.toString(),
         language: language,
       ),
-    );
-  }
-
-  Future<Result<TmdbCommonResultDto<TmdbMovieDto>>> popular({
-    required int page,
-    String language = 'ko-KR',
-  }) {
-    return dioGuard(
-      () => _movies.getPopularMovies(page: page, language: language),
     );
   }
 }

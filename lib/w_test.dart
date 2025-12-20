@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movie_finder/src/common/ui/w_top_rated_poster_widget.dart';
+import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
 import 'package:movie_finder/src/network/core/dio_provider.dart';
 import 'package:movie_finder/utils/result.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+final TestProvider = FutureProvider.autoDispose<SimpleMovieEntity>((ref) async {
+  final repo = ref.watch(movieRepoProvider);
+  final result = await repo.topRated(page: 1);
+  switch (result) {
+    case Success(value: final movies):
+      return movies.first;
+    case Failure(error: final exception):
+      throw exception;
+  }
+});
 
 final class TestWidget extends ConsumerWidget {
   const TestWidget({super.key, required this.number});
@@ -11,6 +24,8 @@ final class TestWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final testAsync = ref.watch(TestProvider);
+
     return Scaffold(
       appBar: AppBar(title: "Home $number".text.make()),
       body: SafeArea(
@@ -97,6 +112,15 @@ final class TestWidget extends ConsumerWidget {
                   }
                 },
                 child: Text('인기 영화 순위'),
+              ),
+
+              testAsync.when(
+                data: (value) => TopRatedPosterWidget(
+                  postUrlString: value.posterUrl,
+                  rating: 1,
+                ),
+                error: (e, _) => Text(e.toString()),
+                loading: () => const SizedBox(),
               ),
 
               Spacer(),
