@@ -7,9 +7,9 @@ part 'vo_product_company_dto.g.dart';
 sealed class ProductCompanyDto with _$ProductCompanyDto {
   factory ProductCompanyDto({
     required int id,
-    String? logoPath,
+    @JsonKey(name: 'logo_path') String? logoPath,
     required String name,
-    required String originCountry,
+    @JsonKey(name: 'origin_country') required String originCountry,
   }) = _ProductCompanyDto;
 
   factory ProductCompanyDto.fromJson(Map<String, dynamic> json) =>

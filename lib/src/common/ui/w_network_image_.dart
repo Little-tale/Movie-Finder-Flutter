@@ -10,6 +10,7 @@ final class NetworkImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(imageUrl);
     if (imageUrl == null) {
       return _empty();
     } else {
@@ -20,6 +21,8 @@ final class NetworkImageWidget extends StatelessWidget {
           child: Center(child: CircularProgressIndicator()),
         ),
         errorWidget: (context, url, error) {
+          debugPrint('--------- Error - Image ---------');
+          debugPrint(url);
           return _empty();
         },
         fit: fit,

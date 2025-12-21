@@ -90,7 +90,7 @@ final class TestWidget extends ConsumerWidget {
               TextButton(
                 onPressed: () async {
                   final repo = ref.read(movieRepoProvider);
-                  final result = await repo.details(movieId: 306598);
+                  final result = await repo.getDetails(movieId: 306598);
                   switch (result) {
                     case Success(value: final movies):
                       print(movies);

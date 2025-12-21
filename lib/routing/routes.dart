@@ -7,10 +7,12 @@ sealed class Routes {
   static const splash = '/${RouteNames.splash}';
   static const home = '/${RouteNames.home}';
   static const topRated = '/${RouteNames.topRated}';
+  static const detail = '/${RouteNames.detail}/:id';
 }
 
 sealed class RouteNames {
   static const splash = 'splash';
   static const home = 'home';
   static const topRated = 'topRated';
+  static const detail = 'detail';
 }

@@ -1,5 +1,5 @@
+import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
 import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
-import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_detail/vo_tmdb_movie_detail_dto.dart';
 import 'package:movie_finder/src/data/mapper/movie_mapper.dart';
 import 'package:movie_finder/src/network/TMDB/movie_list/tmdb_movie_list_client.dart';
 import 'package:movie_finder/src/network/core/dio_guard.dart';
@@ -64,15 +64,15 @@ final class MovieRepository {
     });
   }
 
-  Future<Result<TmdbMovieDetailDto>> details({
+  // MARK: - Details
+  Future<Result<MovieDetailEntity>> getDetails({
     required int movieId,
     String language = 'ko-KR',
   }) {
-    return dioGuard(
-      () => _movies.getMovieDetails(
-        movieId: movieId.toString(),
-        language: language,
-      ),
-    );
+    return dioGuard<MovieDetailEntity>(() async {
+      final dto = await _movies.getMovieDetails(movieId: movieId.toString());
+      ;
+      return MovieMapper.fromMovieDetail(dto);
+    });
   }
 }

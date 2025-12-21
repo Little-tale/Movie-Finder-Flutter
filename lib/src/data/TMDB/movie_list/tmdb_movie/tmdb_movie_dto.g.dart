@@ -28,6 +28,13 @@ _TmdbMovieDto _$TmdbMovieDtoFromJson(Map<String, dynamic> json) =>
       video: json['video'] as bool? ?? false,
       voteAverage: (json['vote_average'] as num?)?.toDouble(),
       voteCount: (json['vote_count'] as num?)?.toInt(),
+      productionCompanies:
+          (json['production_companies'] as List<dynamic>?)
+              ?.map(
+                (e) => ProductCompanyDto.fromJson(e as Map<String, dynamic>),
+              )
+              .toList() ??
+          const <ProductCompanyDto>[],
     );
 
 Map<String, dynamic> _$TmdbMovieDtoToJson(_TmdbMovieDto instance) =>
@@ -48,4 +55,5 @@ Map<String, dynamic> _$TmdbMovieDtoToJson(_TmdbMovieDto instance) =>
       'video': instance.video,
       'vote_average': instance.voteAverage,
       'vote_count': instance.voteCount,
+      'production_companies': instance.productionCompanies,
     };

@@ -36,4 +36,9 @@ extension ContextInsetsX on BuildContext {
   double get bottomBarWithSafeAreaHeight {
     return bottomBarHeight + bottomSafeArea;
   }
+
+  double get safeAreaTop {
+    final mq = MediaQueryData.fromView(View.of(this));
+    return mq.viewPadding.top;
+  }
 }

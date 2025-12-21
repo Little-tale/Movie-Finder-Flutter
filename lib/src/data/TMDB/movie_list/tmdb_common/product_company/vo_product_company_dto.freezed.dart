@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProductCompanyDto {
 
- int get id; String? get logoPath; String get name; String get originCountry;
+ int get id;@JsonKey(name: 'logo_path') String? get logoPath; String get name;@JsonKey(name: 'origin_country') String get originCountry;
 /// Create a copy of ProductCompanyDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $ProductCompanyDtoCopyWith<$Res>  {
   factory $ProductCompanyDtoCopyWith(ProductCompanyDto value, $Res Function(ProductCompanyDto) _then) = _$ProductCompanyDtoCopyWithImpl;
 @useResult
 $Res call({
- int id, String? logoPath, String name, String originCountry
+ int id,@JsonKey(name: 'logo_path') String? logoPath, String name,@JsonKey(name: 'origin_country') String originCountry
 });
 
 
@@ -153,7 +153,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String? logoPath,  String name,  String originCountry)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'logo_path')  String? logoPath,  String name, @JsonKey(name: 'origin_country')  String originCountry)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProductCompanyDto() when $default != null:
 return $default(_that.id,_that.logoPath,_that.name,_that.originCountry);case _:
@@ -174,7 +174,7 @@ return $default(_that.id,_that.logoPath,_that.name,_that.originCountry);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String? logoPath,  String name,  String originCountry)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'logo_path')  String? logoPath,  String name, @JsonKey(name: 'origin_country')  String originCountry)  $default,) {final _that = this;
 switch (_that) {
 case _ProductCompanyDto():
 return $default(_that.id,_that.logoPath,_that.name,_that.originCountry);}
@@ -191,7 +191,7 @@ return $default(_that.id,_that.logoPath,_that.name,_that.originCountry);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String? logoPath,  String name,  String originCountry)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'logo_path')  String? logoPath,  String name, @JsonKey(name: 'origin_country')  String originCountry)?  $default,) {final _that = this;
 switch (_that) {
 case _ProductCompanyDto() when $default != null:
 return $default(_that.id,_that.logoPath,_that.name,_that.originCountry);case _:
@@ -206,13 +206,13 @@ return $default(_that.id,_that.logoPath,_that.name,_that.originCountry);case _:
 @JsonSerializable()
 
 class _ProductCompanyDto implements ProductCompanyDto {
-   _ProductCompanyDto({required this.id, this.logoPath, required this.name, required this.originCountry});
+   _ProductCompanyDto({required this.id, @JsonKey(name: 'logo_path') this.logoPath, required this.name, @JsonKey(name: 'origin_country') required this.originCountry});
   factory _ProductCompanyDto.fromJson(Map<String, dynamic> json) => _$ProductCompanyDtoFromJson(json);
 
 @override final  int id;
-@override final  String? logoPath;
+@override@JsonKey(name: 'logo_path') final  String? logoPath;
 @override final  String name;
-@override final  String originCountry;
+@override@JsonKey(name: 'origin_country') final  String originCountry;
 
 /// Create a copy of ProductCompanyDto
 /// with the given fields replaced by the non-null parameter values.
@@ -247,7 +247,7 @@ abstract mixin class _$ProductCompanyDtoCopyWith<$Res> implements $ProductCompan
   factory _$ProductCompanyDtoCopyWith(_ProductCompanyDto value, $Res Function(_ProductCompanyDto) _then) = __$ProductCompanyDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String? logoPath, String name, String originCountry
+ int id,@JsonKey(name: 'logo_path') String? logoPath, String name,@JsonKey(name: 'origin_country') String originCountry
 });
 
 

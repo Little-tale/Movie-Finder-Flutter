@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_common/product_company/vo_product_company_dto.dart';
 import 'package:movie_finder/utils/Data/nullable_date_time_converter.dart';
 
 part 'tmdb_movie_dto.freezed.dart';
@@ -36,6 +37,10 @@ abstract class TmdbMovieDto with _$TmdbMovieDto {
     @JsonKey(name: 'vote_average') double? voteAverage,
 
     @JsonKey(name: 'vote_count') int? voteCount,
+
+    @JsonKey(name: 'production_companies')
+    @Default(<ProductCompanyDto>[])
+    List<ProductCompanyDto> productionCompanies,
   }) = _TmdbMovieDto;
 
   factory TmdbMovieDto.fromJson(Map<String, dynamic> json) =>

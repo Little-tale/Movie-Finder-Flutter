@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movie_finder/routing/routes.dart';
 import 'package:movie_finder/src/common/ui/w_network_image_.dart';
 import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
 import 'package:movie_finder/src/features/movie_list/vm_movie_list_view_model.dart';
@@ -90,12 +92,18 @@ class _UpcomingCarouselWidgetState
                         ),
                       ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(24),
-                      child: NetworkImageWidget(
-                        imageUrl: items[index].posterUrl,
-                      ),
-                    ),
+                    child:
+                        ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(24),
+                          child: NetworkImageWidget(
+                            imageUrl: items[index].posterUrl,
+                          ),
+                        ).onTap(() {
+                          context.pushNamed(
+                            RouteNames.detail,
+                            pathParameters: {'id': items[index].id.toString()},
+                          );
+                        }),
                   ),
                 ),
               );
