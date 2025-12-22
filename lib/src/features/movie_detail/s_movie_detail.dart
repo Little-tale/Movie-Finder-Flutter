@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_finder/src/common/app/app_size.dart';
 import 'package:movie_finder/src/common/ui/w_network_image_.dart';
+import 'package:movie_finder/src/common/ui/w_star_rating.dart';
 import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
 import 'package:movie_finder/src/data/Entity/product_company_entity/e_product_company_entity.dart';
 import 'package:movie_finder/src/features/movie_detail/vm_movie_detail_view_model.dart';
@@ -151,8 +152,26 @@ class MovieDetailScreen extends ConsumerWidget {
                 .make()
                 .fittedBox()
                 .pOnly(bottom: 4),
-
-            genreChips(data.genres).pOnly(bottom: 8),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(child: genreChips(data.genres)),
+                8.widthBox,
+                VStack(crossAlignment: CrossAxisAlignment.end, [
+                  ((data.voteAverage * 10).round() / 10).text
+                      .color(Colors.white70)
+                      .size(16)
+                      .make(),
+                  StarRatingWidget(
+                    rating: data.starRate,
+                    max: 5,
+                    spacing: 4,
+                    filledColor: Colors.red,
+                    emptyColor: Colors.white70,
+                  ),
+                ]).pOnly(bottom: 12),
+              ],
+            ),
           ],
         ),
       ),
@@ -184,19 +203,26 @@ class MovieDetailScreen extends ConsumerWidget {
 
     return SizedBox(
       width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              spacing: 12,
-              children: companies.map((item) {
-                return _companiesSection(item);
-              }).toList(),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 제작사
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                spacing: 12,
+                children: companies.map((item) {
+                  return _companiesSection(item);
+                }).toList(),
+              ),
             ),
-          ),
-        ],
+
+            // 줄거리
+            _movieOverview(data.movieDetailString).pOnly(top: 16),
+          ],
+        ),
       ),
     );
   }
@@ -205,10 +231,24 @@ class MovieDetailScreen extends ConsumerWidget {
     if (item.logoPath == null) {
       return Container();
     }
-    return Container(
-      color: Colors.white60,
+    return SizedBox(
       width: 80,
-      child: NetworkImageWidget(imageUrl: item.logoPath, fit: BoxFit.fitWidth),
+      child: NetworkImageWidget(
+        imageUrl: item.logoPath,
+        fit: BoxFit.fitWidth,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  Widget _movieOverview(String overViewText) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8,
+      children: [
+        '줄거리'.text.color(Colors.white).bold.size(20).make(),
+        overViewText.text.color(Colors.white70).normal.size(14).make(),
+      ],
     );
   }
 }

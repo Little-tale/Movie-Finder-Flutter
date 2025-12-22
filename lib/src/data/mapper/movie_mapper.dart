@@ -41,6 +41,13 @@ final class MovieMapper {
         ? tmdbPosterPath(path: dto.posterPath!)
         : null;
 
+    final voteAverage = (dto.voteAverage ?? 0.0);
+
+    double starRate = voteAverage;
+    if (starRate != 0) {
+      starRate = starRate / 2;
+    }
+
     return MovieDetailEntity(
       backImageUrlString: backDropUrl,
       posterImageUrlString: postUrl,
@@ -48,7 +55,8 @@ final class MovieMapper {
       movieDetailString: dto.overview ?? "",
       likeState: false,
       releaseDate: dto.releaseDate,
-      voteAverage: dto.voteAverage ?? 0.0,
+      voteAverage: voteAverage,
+      starRate: starRate,
       genres: dto.genres.map((item) => item.name).toList(),
       productionCompanies: dto.productionCompanies.map((item) {
         return ProductCompanyEntity(

@@ -3,10 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 final class NetworkImageWidget extends StatelessWidget {
-  const NetworkImageWidget({super.key, this.imageUrl, this.fit = BoxFit.cover});
+  const NetworkImageWidget({
+    super.key,
+    this.imageUrl,
+    this.fit = BoxFit.cover,
+    this.colorBlendMode,
+    this.color,
+  });
 
   final String? imageUrl;
   final BoxFit? fit;
+  final Color? color;
+  final BlendMode? colorBlendMode;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +24,8 @@ final class NetworkImageWidget extends StatelessWidget {
     } else {
       return CachedNetworkImage(
         imageUrl: imageUrl!,
+        colorBlendMode: colorBlendMode,
+        color: color,
         placeholder: (context, url) => Container(
           color: Color.fromARGB(255, 224, 255, 232).withValues(alpha: 0.9),
           child: Center(child: CircularProgressIndicator()),
