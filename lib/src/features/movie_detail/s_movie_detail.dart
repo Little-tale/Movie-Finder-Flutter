@@ -4,9 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:movie_finder/src/common/app/app_size.dart';
 import 'package:movie_finder/src/common/ui/w_network_image_.dart';
 import 'package:movie_finder/src/common/ui/w_star_rating.dart';
+import 'package:movie_finder/src/data/Entity/credits/casts/e_tmdb_cast_entity.dart';
+import 'package:movie_finder/src/data/Entity/credits/e_tmdb_credits_entity.dart';
 import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
 import 'package:movie_finder/src/data/Entity/product_company_entity/e_product_company_entity.dart';
 import 'package:movie_finder/src/features/movie_detail/vm_movie_detail_view_model.dart';
+import 'package:movie_finder/src/features/movie_detail/vm_state/movie_detail_state.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MovieDetailScreen extends ConsumerWidget {
@@ -35,7 +38,7 @@ class MovieDetailScreen extends ConsumerWidget {
                   ],
                 ),
 
-                _header(context, data, headerHeight),
+                _header(context, data.detail, headerHeight),
               ],
             );
           },
@@ -198,8 +201,9 @@ class MovieDetailScreen extends ConsumerWidget {
     );
   }
 
-  Widget _scrollBody(BuildContext context, MovieDetailEntity data) {
-    final companies = data.productionCompanies;
+  // MARK: - Body
+  Widget _scrollBody(BuildContext context, MovieDetailState data) {
+    final companies = data.detail.productionCompanies;
 
     return SizedBox(
       width: double.infinity,
@@ -220,7 +224,10 @@ class MovieDetailScreen extends ConsumerWidget {
             ),
 
             // 줄거리
-            _movieOverview(data.movieDetailString).pOnly(top: 16),
+            _movieOverview(data.detail.movieDetailString).pOnly(top: 16),
+
+            // 출연진
+            _movieCrews(data.credits).pOnly(top: 16),
           ],
         ),
       ),
@@ -249,6 +256,52 @@ class MovieDetailScreen extends ConsumerWidget {
         '줄거리'.text.color(Colors.white).bold.size(20).make(),
         overViewText.text.color(Colors.white70).normal.size(14).make(),
       ],
+    );
+  }
+
+  Widget _movieCrews(TmdbCreditsEntity credits) {
+    return Column(
+      spacing: 8,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        '출연진들'.text.bold.size(24).color(Colors.white).make().pOnly(bottom: 8),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            spacing: 12,
+            children: credits.cast.map((i) {
+              return SizedBox(width: 120, child: _movieCreditMember(i));
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _movieCreditMember(TmdbCastEntity entity) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          NetworkImageWidget(imageUrl: entity.profileUrl),
+          Container(
+            width: double.infinity,
+            color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(6, 2, 6, 8),
+              child: VStack([
+                entity.name.text.size(12).bold.color(Colors.white).make(),
+                entity.characterName.text
+                    .size(10)
+                    .semiBold
+                    .color(Colors.white)
+                    .make(),
+              ]),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

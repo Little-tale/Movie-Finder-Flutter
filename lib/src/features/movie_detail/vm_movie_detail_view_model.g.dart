@@ -13,7 +13,7 @@ part of 'vm_movie_detail_view_model.dart';
 const movieDetailVmProvider = MovieDetailVmFamily._();
 
 final class MovieDetailVmProvider
-    extends $AsyncNotifierProvider<MovieDetailVm, MovieDetailEntity> {
+    extends $AsyncNotifierProvider<MovieDetailVm, MovieDetailState> {
   const MovieDetailVmProvider._({
     required MovieDetailVmFamily super.from,
     required int super.argument,
@@ -50,15 +50,15 @@ final class MovieDetailVmProvider
   }
 }
 
-String _$movieDetailVmHash() => r'59ab4cd9ca26c886a4e293f2adbdfb85cb86691b';
+String _$movieDetailVmHash() => r'126fa8260b34c41b0eb70a4212d46319b93a407f';
 
 final class MovieDetailVmFamily extends $Family
     with
         $ClassFamilyOverride<
           MovieDetailVm,
-          AsyncValue<MovieDetailEntity>,
-          MovieDetailEntity,
-          FutureOr<MovieDetailEntity>,
+          AsyncValue<MovieDetailState>,
+          MovieDetailState,
+          FutureOr<MovieDetailState>,
           int
         > {
   const MovieDetailVmFamily._()
@@ -77,22 +77,22 @@ final class MovieDetailVmFamily extends $Family
   String toString() => r'movieDetailVmProvider';
 }
 
-abstract class _$MovieDetailVm extends $AsyncNotifier<MovieDetailEntity> {
+abstract class _$MovieDetailVm extends $AsyncNotifier<MovieDetailState> {
   late final _$args = ref.$arg as int;
   int get movieId => _$args;
 
-  FutureOr<MovieDetailEntity> build(int movieId);
+  FutureOr<MovieDetailState> build(int movieId);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args);
     final ref =
-        this.ref as $Ref<AsyncValue<MovieDetailEntity>, MovieDetailEntity>;
+        this.ref as $Ref<AsyncValue<MovieDetailState>, MovieDetailState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<MovieDetailEntity>, MovieDetailEntity>,
-              AsyncValue<MovieDetailEntity>,
+              AnyNotifier<AsyncValue<MovieDetailState>, MovieDetailState>,
+              AsyncValue<MovieDetailState>,
               Object?,
               Object?
             >;

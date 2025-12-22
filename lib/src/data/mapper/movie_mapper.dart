@@ -1,7 +1,11 @@
+import 'package:movie_finder/src/data/Entity/credits/casts/e_tmdb_cast_entity.dart';
+import 'package:movie_finder/src/data/Entity/credits/crew/e_tmdb_crew_entity.dart';
+import 'package:movie_finder/src/data/Entity/credits/e_tmdb_credits_entity.dart';
 import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
 import 'package:movie_finder/src/data/Entity/product_company_entity/e_product_company_entity.dart';
 import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_common/vo_tmdb_common_result_dto.dart';
+import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_cast/movie_credit_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_detail/vo_tmdb_movie_detail_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/up_coming/tmdb_up_coming_dto.dart';
@@ -69,5 +73,33 @@ final class MovieMapper {
         );
       }).toList(),
     );
+  }
+
+  // 영화 관계자들
+  static TmdbCreditsEntity fromCredit(MovieCreditDto dto) {
+    return TmdbCreditsEntity(
+      cast: dto.cast.map((item) {
+        return TmdbCastEntity(
+          name: item.name,
+          characterName: item.character,
+          profileUrl: makePosterUrl(item.profilePath),
+        );
+      }).toList(),
+      crew: dto.crew.map((item) {
+        return TmdbCrewEntity(
+          id: item.id,
+          name: item.name,
+          profileUrl: makePosterUrl(item.profilePath),
+          job: item.job,
+        );
+      }).toList(),
+    );
+  }
+
+  static String? makePosterUrl(String? path) {
+    if (path == null) {
+      return null;
+    }
+    return tmdbPosterPath(path: path);
   }
 }
