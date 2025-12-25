@@ -1,8 +1,11 @@
-import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
+import 'package:movie_finder/src/common/utils/utils.dart';
 import 'package:movie_finder/src/features/movie_detail/vm_state/movie_detail_state.dart';
 import 'package:movie_finder/src/network/core/dio_provider.dart';
+import 'package:movie_finder/src/network/core/repository/movie_repository.dart';
 import 'package:movie_finder/utils/result.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import 'package:velocity_x/velocity_x.dart';
 
 // 최신 방식 riverpod
 part 'vm_movie_detail_view_model.g.dart';
@@ -25,11 +28,24 @@ class MovieDetailVm extends _$MovieDetailVm {
       Failure(error: final e) => throw e,
     };
 
-    return MovieDetailState(detail: detail, credits: credit);
+    _requestVideos(movieId: movieId, repo: repo);
+    return MovieDetailState(detail: detail, credits: credit, videos: []);
   }
 
   Future<void> refresh(int movieId) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() => build(movieId));
+  }
+
+  _requestVideos({required MovieRepository repo, required int movieId}) {
+    repo.getMovieVideos(movieId: movieId).then((result) async {
+      await sleepAsync(2.seconds);
+      if (!ref.mounted) return;
+      final res = switch (result) {
+        Success(value: final v) => v,
+        Failure(error: final e) => throw e,
+      };
+      state = AsyncValue.data(state.value!.copyWith(videos: res));
+    });
   }
 }

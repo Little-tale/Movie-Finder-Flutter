@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_finder/src/common/app/app_size.dart';
+import 'package:movie_finder/src/common/providers/timer_provider.dart';
+import 'package:movie_finder/src/common/providers/youtubeControllerProvider.dart';
+import 'package:movie_finder/src/common/ui/ext/ex_app_decoration.dart';
 import 'package:movie_finder/src/common/ui/w_network_image_.dart';
 import 'package:movie_finder/src/common/ui/w_star_rating.dart';
-import 'package:movie_finder/src/data/Entity/credits/casts/e_tmdb_cast_entity.dart';
 import 'package:movie_finder/src/data/Entity/credits/e_tmdb_credits_entity.dart';
 import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
+import 'package:movie_finder/src/data/Entity/movie_video/e_movie_video_entity.dart';
 import 'package:movie_finder/src/data/Entity/product_company_entity/e_product_company_entity.dart';
 import 'package:movie_finder/src/features/movie_detail/vm_movie_detail_view_model.dart';
 import 'package:movie_finder/src/features/movie_detail/vm_state/movie_detail_state.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class MovieDetailScreen extends ConsumerWidget {
   const MovieDetailScreen(this.movieID, {super.key});
@@ -19,8 +23,17 @@ class MovieDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(movieDetailVmProvider(movieID), (prev, next) {
+      final prevHasVideos = prev?.value?.videos.isNotEmpty ?? false;
+      final nextHasVideos = next.value?.videos.isNotEmpty ?? false;
+      if (!prevHasVideos && nextHasVideos) {
+        ref.read(timerProviderProvider.notifier).delayStart(3.seconds);
+      }
+    });
+
     final state = ref.watch(movieDetailVmProvider(movieID));
-    final headerHeight = context.blockSizeVertical * 29;
+
+    final headerHeight = context.screenSize.width * 9 / 16;
     final headerWithSafe = context.safeAreaTop + headerHeight;
 
     return Scaffold(
@@ -34,11 +47,14 @@ class MovieDetailScreen extends ConsumerWidget {
                 CustomScrollView(
                   slivers: [
                     SliverToBoxAdapter(child: headerWithSafe.heightBox),
-                    SliverToBoxAdapter(child: _scrollBody(context, data)),
+                    SliverToBoxAdapter(child: _scrollBody(ref, context, data)),
+                    SliverToBoxAdapter(child: context.bottomSafeArea.heightBox),
                   ],
                 ),
 
-                _header(context, data.detail, headerHeight),
+                _header(ref, context, data, headerHeight).onTap(() {
+                  ref.read(timerProviderProvider.notifier).pulse(3.seconds);
+                }),
               ],
             );
           },
@@ -54,10 +70,12 @@ class MovieDetailScreen extends ConsumerWidget {
   }
 
   Widget _header(
+    WidgetRef ref,
     BuildContext context,
-    MovieDetailEntity data,
+    MovieDetailState data,
     double headerHeight,
   ) {
+    final timer = ref.watch(timerProviderProvider);
     return SizedBox(
       height: context.safeAreaTop + headerHeight,
       child: Stack(
@@ -66,11 +84,18 @@ class MovieDetailScreen extends ConsumerWidget {
           Column(
             children: [
               Container(color: Colors.black, height: context.safeAreaTop),
-              _headerBackground(context, data, headerHeight),
+
+              data.videos.isEmpty
+                  ? _headerBackground(context, data.detail, headerHeight)
+                  : _movieVideos(ref, data.videos, headerHeight),
             ],
           ),
           _headerGradient(headerHeight),
-          _headerOverlayText(data),
+          AnimatedOpacity(
+            opacity: timer ? 1 : 0,
+            duration: 1.seconds,
+            child: _headerOverlayText(data.detail),
+          ),
           _headerBackButton(context),
         ],
       ),
@@ -124,7 +149,8 @@ class MovieDetailScreen extends ConsumerWidget {
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(100),
           child: Container(
-            color: Colors.grey[800],
+            // color: Colors.grey[800],
+            decoration: AppDecorations.glassStyle3,
             child: IconButton(
               visualDensity: VisualDensity.compact,
               onPressed: () {
@@ -189,11 +215,7 @@ class MovieDetailScreen extends ConsumerWidget {
           return Container(
             margin: const EdgeInsets.only(right: 8),
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
-            ),
+            decoration: AppDecorations.glassStyle,
             child: item.text.size(14).color(Colors.white).make(),
           );
         }).toList(),
@@ -202,7 +224,11 @@ class MovieDetailScreen extends ConsumerWidget {
   }
 
   // MARK: - Body
-  Widget _scrollBody(BuildContext context, MovieDetailState data) {
+  Widget _scrollBody(
+    WidgetRef ref,
+    BuildContext context,
+    MovieDetailState data,
+  ) {
     final companies = data.detail.productionCompanies;
 
     return SizedBox(
@@ -270,7 +296,32 @@ class MovieDetailScreen extends ConsumerWidget {
           child: Row(
             spacing: 12,
             children: credits.cast.map((i) {
-              return SizedBox(width: 120, child: _movieCreditMember(i));
+              return SizedBox(
+                width: 120,
+                child: _movieCrewMember(
+                  name: i.name,
+                  subTitle: i.characterName,
+                  profileUrl: i.profileUrl,
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+
+        '제작진들'.text.bold.size(24).color(Colors.white).make().pOnly(bottom: 8),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            spacing: 12,
+            children: credits.crew.map((i) {
+              return SizedBox(
+                width: 120,
+                child: _movieCrewMember(
+                  name: i.name,
+                  subTitle: i.job,
+                  profileUrl: i.profileUrl,
+                ),
+              );
             }).toList(),
           ),
         ),
@@ -278,29 +329,60 @@ class MovieDetailScreen extends ConsumerWidget {
     );
   }
 
-  Widget _movieCreditMember(TmdbCastEntity entity) {
+  Widget _movieCrewMember({
+    required String name,
+    String? profileUrl,
+    required String subTitle,
+  }) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          NetworkImageWidget(imageUrl: entity.profileUrl),
+          NetworkImageWidget(imageUrl: profileUrl),
           Container(
             width: double.infinity,
             color: Colors.black,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(6, 2, 6, 8),
               child: VStack([
-                entity.name.text.size(12).bold.color(Colors.white).make(),
-                entity.characterName.text
+                name.text.size(12).bold.color(Colors.white).make(),
+                subTitle.text
                     .size(10)
                     .semiBold
+                    .maxLines(1)
                     .color(Colors.white)
                     .make(),
               ]),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _movieVideos(
+    WidgetRef ref,
+    List<MovieVideoEntity> videos,
+    double height,
+  ) {
+    if (videos.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final videoId = videos.first.key.trim();
+    debugPrint('youtube videoId=$videoId len=${videoId.length}');
+    final controller = ref.watch(
+      youtubeControllerProvider(videos.first.key.trim()),
+    );
+
+    return Container(
+      color: Colors.black,
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(18),
+          topRight: Radius.circular(18),
+        ),
+        child: YoutubePlayer(aspectRatio: 16 / 9, controller: controller),
       ),
     );
   }

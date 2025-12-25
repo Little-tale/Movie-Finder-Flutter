@@ -2,14 +2,17 @@ import 'package:movie_finder/src/data/Entity/credits/casts/e_tmdb_cast_entity.da
 import 'package:movie_finder/src/data/Entity/credits/crew/e_tmdb_crew_entity.dart';
 import 'package:movie_finder/src/data/Entity/credits/e_tmdb_credits_entity.dart';
 import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
+import 'package:movie_finder/src/data/Entity/movie_video/e_movie_video_entity.dart';
 import 'package:movie_finder/src/data/Entity/product_company_entity/e_product_company_entity.dart';
 import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_common/vo_tmdb_common_result_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_cast/movie_credit_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_detail/vo_tmdb_movie_detail_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_dto.dart';
+import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_videos/tmdb_movie_videos_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/up_coming/tmdb_up_coming_dto.dart';
 import 'package:movie_finder/src/network/TMDB/tmdb_image_path.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 final class MovieMapper {
   static SimpleMovieEntity fromDto(TmdbMovieDto dto) {
@@ -101,5 +104,23 @@ final class MovieMapper {
       return null;
     }
     return tmdbPosterPath(path: path);
+  }
+
+  // MARK: Movie Video
+  static List<MovieVideoEntity> fromMovieVideoDTO(TmdbMovieVideosDto dto) {
+    return dto.results
+        .filter((item) {
+          return item.site == "YouTube";
+        })
+        .map((item) {
+          return MovieVideoEntity(
+            name: item.name,
+            key: item.key,
+            id: item.id,
+            site: item.site,
+            size: item.size,
+          );
+        })
+        .toList();
   }
 }
