@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 /// Use [Result.Success] to create a successful result with a value of type [T].
 /// Use [Result.Failure] to create an error result with an [Exception].
 sealed class Result<T> {

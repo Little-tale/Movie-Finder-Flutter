@@ -12,7 +12,6 @@ import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_dto.
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_videos/tmdb_movie_videos_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/up_coming/tmdb_up_coming_dto.dart';
 import 'package:movie_finder/src/network/TMDB/tmdb_image_path.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 final class MovieMapper {
   static SimpleMovieEntity fromDto(TmdbMovieDto dto) {

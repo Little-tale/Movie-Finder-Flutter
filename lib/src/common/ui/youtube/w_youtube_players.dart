@@ -98,7 +98,7 @@ class _YoutubePlayersState extends State<YoutubePlayers> {
   void didUpdateWidget(covariant YoutubePlayers oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // ids 내용이 바뀌면(다른 영화 등) 첫 영상부터 다시
+    // ids 내용이 바뀌면 첫 영상부터
     final oldIds = oldWidget.ids
         .map((e) => e.trim())
         .where((e) => e.isNotEmpty)
@@ -113,7 +113,7 @@ class _YoutubePlayersState extends State<YoutubePlayers> {
         return;
       }
 
-      // 컨트롤러가 없으면 새로 만들고, 있으면 첫 영상 로드
+      // 컨트롤러가 없으면 새로, 있으면 첫 영상
       if (_controller == null) {
         _controller = _createController(newIds.first);
         _attachListener();

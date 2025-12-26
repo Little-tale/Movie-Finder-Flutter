@@ -6,6 +6,7 @@ import 'package:movie_finder/src/network/core/dio_provider.dart';
 import 'package:movie_finder/utils/result.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// ignore: non_constant_identifier_names
 final TestProvider = FutureProvider.autoDispose<SimpleMovieEntity>((ref) async {
   final repo = ref.watch(movieRepoProvider);
   final result = await repo.topRated(page: 1);
@@ -43,7 +44,7 @@ final class TestWidget extends ConsumerWidget {
                 onPressed: () async {
                   final repo = ref.read(serverAuthRepoProvider);
                   final result = await repo.serverTest();
-                  print(result);
+                  debugPrint(result);
                 },
                 child: Text('Server Check'),
               ),
@@ -53,8 +54,8 @@ final class TestWidget extends ConsumerWidget {
                   final result = await repo.topRated(page: 1);
                   switch (result) {
                     case Success(value: final movies):
-                      print(movies);
-                    case Failure(error: final exception):
+                      debugPrint('$movies');
+                    case Failure(error: final _):
                       break;
                   }
                 },
@@ -66,8 +67,8 @@ final class TestWidget extends ConsumerWidget {
                   final result = await repo.upcoming(page: 1);
                   switch (result) {
                     case Success(value: final movies):
-                      print(movies);
-                    case Failure(error: final exception):
+                      debugPrint('$movies');
+                    case Failure(error: final _):
                       break;
                   }
                 },
@@ -80,8 +81,8 @@ final class TestWidget extends ConsumerWidget {
                   final result = await repo.searchMovie(query: '님아', page: 1);
                   switch (result) {
                     case Success(value: final movies):
-                      print(movies);
-                    case Failure(error: final exception):
+                      debugPrint('$movies');
+                    case Failure(error: final _):
                       break;
                   }
                 },
@@ -93,8 +94,8 @@ final class TestWidget extends ConsumerWidget {
                   final result = await repo.getDetails(movieId: 306598);
                   switch (result) {
                     case Success(value: final movies):
-                      print(movies);
-                    case Failure(error: final exception):
+                      debugPrint('$movies');
+                    case Failure(error: final _):
                       break;
                   }
                 },
@@ -106,8 +107,8 @@ final class TestWidget extends ConsumerWidget {
                   final result = await repo.popular(page: 1);
                   switch (result) {
                     case Success(value: final movies):
-                      print(movies);
-                    case Failure(error: final exception):
+                      debugPrint('$movies');
+                    case Failure(error: final _):
                       break;
                   }
                 },
