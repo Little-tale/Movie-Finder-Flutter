@@ -26,6 +26,7 @@ dependencies:
   flutter_native_splash: ^2.4.7
   velocity_x: ^4.3.1
   cached_network_image: ^3.4.1
+  youtube_player_iframe: ^5.2.2
 
 flutter_native_splash:
   color: "#d1f0e4" # 스플래시 화면의 배경색 설정

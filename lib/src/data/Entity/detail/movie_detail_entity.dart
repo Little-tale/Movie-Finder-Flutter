@@ -13,6 +13,7 @@ sealed class MovieDetailEntity with _$MovieDetailEntity {
     required bool likeState,
     required DateTime? releaseDate,
     required double voteAverage,
+    required double starRate,
     required List<String> genres,
     required List<ProductCompanyEntity> productionCompanies,
   }) = _MovieDetailEntity;

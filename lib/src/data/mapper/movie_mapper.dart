@@ -1,9 +1,15 @@
+import 'package:movie_finder/src/data/Entity/credits/casts/e_tmdb_cast_entity.dart';
+import 'package:movie_finder/src/data/Entity/credits/crew/e_tmdb_crew_entity.dart';
+import 'package:movie_finder/src/data/Entity/credits/e_tmdb_credits_entity.dart';
 import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
+import 'package:movie_finder/src/data/Entity/movie_video/e_movie_video_entity.dart';
 import 'package:movie_finder/src/data/Entity/product_company_entity/e_product_company_entity.dart';
 import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_common/vo_tmdb_common_result_dto.dart';
+import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_cast/movie_credit_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_detail/vo_tmdb_movie_detail_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_dto.dart';
+import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_videos/tmdb_movie_videos_dto.dart';
 import 'package:movie_finder/src/data/TMDB/movie_list/up_coming/tmdb_up_coming_dto.dart';
 import 'package:movie_finder/src/network/TMDB/tmdb_image_path.dart';
 
@@ -41,6 +47,13 @@ final class MovieMapper {
         ? tmdbPosterPath(path: dto.posterPath!)
         : null;
 
+    final voteAverage = (dto.voteAverage ?? 0.0);
+
+    double starRate = voteAverage;
+    if (starRate != 0) {
+      starRate = starRate / 2;
+    }
+
     return MovieDetailEntity(
       backImageUrlString: backDropUrl,
       posterImageUrlString: postUrl,
@@ -48,7 +61,8 @@ final class MovieMapper {
       movieDetailString: dto.overview ?? "",
       likeState: false,
       releaseDate: dto.releaseDate,
-      voteAverage: dto.voteAverage ?? 0.0,
+      voteAverage: voteAverage,
+      starRate: starRate,
       genres: dto.genres.map((item) => item.name).toList(),
       productionCompanies: dto.productionCompanies.map((item) {
         return ProductCompanyEntity(
@@ -61,5 +75,53 @@ final class MovieMapper {
         );
       }).toList(),
     );
+  }
+
+  // 영화 관계자들
+  static TmdbCreditsEntity fromCredit(MovieCreditDto dto) {
+    return TmdbCreditsEntity(
+      cast: dto.cast.map((item) {
+        return TmdbCastEntity(
+          name: item.name,
+          characterName: item.character,
+          profileUrl: makePosterUrl(item.profilePath),
+        );
+      }).toList(),
+      crew: dto.crew.map((item) {
+        return TmdbCrewEntity(
+          id: item.id,
+          name: item.name,
+          profileUrl: makePosterUrl(item.profilePath),
+          job: item.job,
+        );
+      }).toList(),
+    );
+  }
+
+  static String? makePosterUrl(String? path) {
+    if (path == null) {
+      return null;
+    }
+    return tmdbPosterPath(path: path);
+  }
+
+  // MARK: Movie Video
+  static List<MovieVideoEntity> fromMovieVideoDTO(TmdbMovieVideosDto dto) {
+    return dto.results
+        .where(
+          (item) =>
+              item.site?.toLowerCase() == 'youtube' &&
+              (item.key.trim().isNotEmpty),
+        )
+        .map(
+          (item) => MovieVideoEntity(
+            name: item.name,
+            key: item.key.trim(),
+            id: item.id,
+            site: item.site,
+            size: item.size,
+          ),
+        )
+        .toList();
   }
 }

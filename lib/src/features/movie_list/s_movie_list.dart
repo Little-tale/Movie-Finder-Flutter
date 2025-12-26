@@ -30,8 +30,10 @@ class _MovieListScreenState extends ConsumerState<MovieListScreen> {
           ),
           SliverToBoxAdapter(child: UpcomingCarouselWidget()),
           PopularMovieWidget(),
-          SliverToBoxAdapter(child: TopRatedSection().pOnly(bottom: 024)),
+          SliverToBoxAdapter(child: TopRatedSection().pOnly(bottom: 24)),
           SliverToBoxAdapter(child: NowPlayingWidget()),
+
+          // MARK: SafeArea
           SliverToBoxAdapter(
             child: context.bottomBarWithSafeAreaHeight.heightBox.pOnly(
               bottom: 8,

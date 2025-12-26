@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movie_finder/routing/routes.dart';
 import 'package:movie_finder/src/common/ui/w_top_rated_poster_widget.dart';
 import 'package:movie_finder/src/features/movie_list/vm_movie_list_view_model.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -37,7 +39,12 @@ class TopRatedSection extends ConsumerWidget {
                     postUrlString: data.items[index].posterUrl,
                     posterH: 200,
                     posterW: 140,
-                  );
+                  ).onTap(() {
+                    context.pushNamed(
+                      RouteNames.detail,
+                      pathParameters: {'id': data.items[index].id.toString()},
+                    );
+                  });
                 },
               ),
             ),
