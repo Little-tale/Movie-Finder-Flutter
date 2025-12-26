@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movie_finder/routing/routes.dart';
 import 'package:movie_finder/src/common/ui/w_named_poster.dart';
 import 'package:movie_finder/src/features/movie_list/vm_movie_list_view_model.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -60,7 +62,12 @@ class _PopularMovieWidgetState extends ConsumerState<PopularMovieWidget> {
                         posterUrl: data.items[index].posterUrl,
                         title: data.items[index].title,
                       ).pSymmetric(h: 12),
-                    ]);
+                    ]).onTap(() {
+                      context.pushNamed(
+                        RouteNames.detail,
+                        pathParameters: {'id': data.items[index].id.toString()},
+                      );
+                    });
                   },
                 ),
               ),

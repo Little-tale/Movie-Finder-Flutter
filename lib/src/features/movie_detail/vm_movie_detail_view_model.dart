@@ -45,7 +45,14 @@ class MovieDetailVm extends _$MovieDetailVm {
         Success(value: final v) => v,
         Failure(error: final e) => throw e,
       };
-      state = AsyncValue.data(state.value!.copyWith(videos: res));
+      state = AsyncValue.data(
+        state.value!.copyWith(videos: res, videoLoad: true),
+      );
     });
+  }
+
+  changeVideoLoad(bool trigger) {
+    if (!ref.mounted) return;
+    state = AsyncData(state.value!.copyWith(videoLoad: trigger));
   }
 }

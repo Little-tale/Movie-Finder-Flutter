@@ -109,18 +109,20 @@ final class MovieMapper {
   // MARK: Movie Video
   static List<MovieVideoEntity> fromMovieVideoDTO(TmdbMovieVideosDto dto) {
     return dto.results
-        .filter((item) {
-          return item.site == "YouTube";
-        })
-        .map((item) {
-          return MovieVideoEntity(
+        .where(
+          (item) =>
+              item.site?.toLowerCase() == 'youtube' &&
+              (item.key.trim().isNotEmpty),
+        )
+        .map(
+          (item) => MovieVideoEntity(
             name: item.name,
-            key: item.key,
+            key: item.key.trim(),
             id: item.id,
             site: item.site,
             size: item.size,
-          );
-        })
+          ),
+        )
         .toList();
   }
 }

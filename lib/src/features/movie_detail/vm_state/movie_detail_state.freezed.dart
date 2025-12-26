@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MovieDetailState {
 
- MovieDetailEntity get detail; TmdbCreditsEntity get credits; List<MovieVideoEntity> get videos; bool get isFavorite; int get selectedTab;
+ MovieDetailEntity get detail; TmdbCreditsEntity get credits; List<MovieVideoEntity> get videos; bool get isFavorite; int get selectedTab; bool get videoLoad;
 /// Create a copy of MovieDetailState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $MovieDetailStateCopyWith<MovieDetailState> get copyWith => _$MovieDetailStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MovieDetailState&&(identical(other.detail, detail) || other.detail == detail)&&(identical(other.credits, credits) || other.credits == credits)&&const DeepCollectionEquality().equals(other.videos, videos)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite)&&(identical(other.selectedTab, selectedTab) || other.selectedTab == selectedTab));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MovieDetailState&&(identical(other.detail, detail) || other.detail == detail)&&(identical(other.credits, credits) || other.credits == credits)&&const DeepCollectionEquality().equals(other.videos, videos)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite)&&(identical(other.selectedTab, selectedTab) || other.selectedTab == selectedTab)&&(identical(other.videoLoad, videoLoad) || other.videoLoad == videoLoad));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,detail,credits,const DeepCollectionEquality().hash(videos),isFavorite,selectedTab);
+int get hashCode => Object.hash(runtimeType,detail,credits,const DeepCollectionEquality().hash(videos),isFavorite,selectedTab,videoLoad);
 
 @override
 String toString() {
-  return 'MovieDetailState(detail: $detail, credits: $credits, videos: $videos, isFavorite: $isFavorite, selectedTab: $selectedTab)';
+  return 'MovieDetailState(detail: $detail, credits: $credits, videos: $videos, isFavorite: $isFavorite, selectedTab: $selectedTab, videoLoad: $videoLoad)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $MovieDetailStateCopyWith<$Res>  {
   factory $MovieDetailStateCopyWith(MovieDetailState value, $Res Function(MovieDetailState) _then) = _$MovieDetailStateCopyWithImpl;
 @useResult
 $Res call({
- MovieDetailEntity detail, TmdbCreditsEntity credits, List<MovieVideoEntity> videos, bool isFavorite, int selectedTab
+ MovieDetailEntity detail, TmdbCreditsEntity credits, List<MovieVideoEntity> videos, bool isFavorite, int selectedTab, bool videoLoad
 });
 
 
@@ -62,14 +62,15 @@ class _$MovieDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of MovieDetailState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? detail = null,Object? credits = null,Object? videos = null,Object? isFavorite = null,Object? selectedTab = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? detail = null,Object? credits = null,Object? videos = null,Object? isFavorite = null,Object? selectedTab = null,Object? videoLoad = null,}) {
   return _then(_self.copyWith(
 detail: null == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
 as MovieDetailEntity,credits: null == credits ? _self.credits : credits // ignore: cast_nullable_to_non_nullable
 as TmdbCreditsEntity,videos: null == videos ? _self.videos : videos // ignore: cast_nullable_to_non_nullable
 as List<MovieVideoEntity>,isFavorite: null == isFavorite ? _self.isFavorite : isFavorite // ignore: cast_nullable_to_non_nullable
 as bool,selectedTab: null == selectedTab ? _self.selectedTab : selectedTab // ignore: cast_nullable_to_non_nullable
-as int,
+as int,videoLoad: null == videoLoad ? _self.videoLoad : videoLoad // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of MovieDetailState
@@ -169,10 +170,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MovieDetailEntity detail,  TmdbCreditsEntity credits,  List<MovieVideoEntity> videos,  bool isFavorite,  int selectedTab)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MovieDetailEntity detail,  TmdbCreditsEntity credits,  List<MovieVideoEntity> videos,  bool isFavorite,  int selectedTab,  bool videoLoad)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MovieDetailState() when $default != null:
-return $default(_that.detail,_that.credits,_that.videos,_that.isFavorite,_that.selectedTab);case _:
+return $default(_that.detail,_that.credits,_that.videos,_that.isFavorite,_that.selectedTab,_that.videoLoad);case _:
   return orElse();
 
 }
@@ -190,10 +191,10 @@ return $default(_that.detail,_that.credits,_that.videos,_that.isFavorite,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MovieDetailEntity detail,  TmdbCreditsEntity credits,  List<MovieVideoEntity> videos,  bool isFavorite,  int selectedTab)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MovieDetailEntity detail,  TmdbCreditsEntity credits,  List<MovieVideoEntity> videos,  bool isFavorite,  int selectedTab,  bool videoLoad)  $default,) {final _that = this;
 switch (_that) {
 case _MovieDetailState():
-return $default(_that.detail,_that.credits,_that.videos,_that.isFavorite,_that.selectedTab);}
+return $default(_that.detail,_that.credits,_that.videos,_that.isFavorite,_that.selectedTab,_that.videoLoad);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -207,10 +208,10 @@ return $default(_that.detail,_that.credits,_that.videos,_that.isFavorite,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MovieDetailEntity detail,  TmdbCreditsEntity credits,  List<MovieVideoEntity> videos,  bool isFavorite,  int selectedTab)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MovieDetailEntity detail,  TmdbCreditsEntity credits,  List<MovieVideoEntity> videos,  bool isFavorite,  int selectedTab,  bool videoLoad)?  $default,) {final _that = this;
 switch (_that) {
 case _MovieDetailState() when $default != null:
-return $default(_that.detail,_that.credits,_that.videos,_that.isFavorite,_that.selectedTab);case _:
+return $default(_that.detail,_that.credits,_that.videos,_that.isFavorite,_that.selectedTab,_that.videoLoad);case _:
   return null;
 
 }
@@ -222,7 +223,7 @@ return $default(_that.detail,_that.credits,_that.videos,_that.isFavorite,_that.s
 
 
 class _MovieDetailState implements MovieDetailState {
-  const _MovieDetailState({required this.detail, required this.credits, required final  List<MovieVideoEntity> videos, this.isFavorite = false, this.selectedTab = 0}): _videos = videos;
+  const _MovieDetailState({required this.detail, required this.credits, required final  List<MovieVideoEntity> videos, this.isFavorite = false, this.selectedTab = 0, this.videoLoad = false}): _videos = videos;
   
 
 @override final  MovieDetailEntity detail;
@@ -236,6 +237,7 @@ class _MovieDetailState implements MovieDetailState {
 
 @override@JsonKey() final  bool isFavorite;
 @override@JsonKey() final  int selectedTab;
+@override@JsonKey() final  bool videoLoad;
 
 /// Create a copy of MovieDetailState
 /// with the given fields replaced by the non-null parameter values.
@@ -247,16 +249,16 @@ _$MovieDetailStateCopyWith<_MovieDetailState> get copyWith => __$MovieDetailStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MovieDetailState&&(identical(other.detail, detail) || other.detail == detail)&&(identical(other.credits, credits) || other.credits == credits)&&const DeepCollectionEquality().equals(other._videos, _videos)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite)&&(identical(other.selectedTab, selectedTab) || other.selectedTab == selectedTab));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MovieDetailState&&(identical(other.detail, detail) || other.detail == detail)&&(identical(other.credits, credits) || other.credits == credits)&&const DeepCollectionEquality().equals(other._videos, _videos)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite)&&(identical(other.selectedTab, selectedTab) || other.selectedTab == selectedTab)&&(identical(other.videoLoad, videoLoad) || other.videoLoad == videoLoad));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,detail,credits,const DeepCollectionEquality().hash(_videos),isFavorite,selectedTab);
+int get hashCode => Object.hash(runtimeType,detail,credits,const DeepCollectionEquality().hash(_videos),isFavorite,selectedTab,videoLoad);
 
 @override
 String toString() {
-  return 'MovieDetailState(detail: $detail, credits: $credits, videos: $videos, isFavorite: $isFavorite, selectedTab: $selectedTab)';
+  return 'MovieDetailState(detail: $detail, credits: $credits, videos: $videos, isFavorite: $isFavorite, selectedTab: $selectedTab, videoLoad: $videoLoad)';
 }
 
 
@@ -267,7 +269,7 @@ abstract mixin class _$MovieDetailStateCopyWith<$Res> implements $MovieDetailSta
   factory _$MovieDetailStateCopyWith(_MovieDetailState value, $Res Function(_MovieDetailState) _then) = __$MovieDetailStateCopyWithImpl;
 @override @useResult
 $Res call({
- MovieDetailEntity detail, TmdbCreditsEntity credits, List<MovieVideoEntity> videos, bool isFavorite, int selectedTab
+ MovieDetailEntity detail, TmdbCreditsEntity credits, List<MovieVideoEntity> videos, bool isFavorite, int selectedTab, bool videoLoad
 });
 
 
@@ -284,14 +286,15 @@ class __$MovieDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of MovieDetailState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? detail = null,Object? credits = null,Object? videos = null,Object? isFavorite = null,Object? selectedTab = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? detail = null,Object? credits = null,Object? videos = null,Object? isFavorite = null,Object? selectedTab = null,Object? videoLoad = null,}) {
   return _then(_MovieDetailState(
 detail: null == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
 as MovieDetailEntity,credits: null == credits ? _self.credits : credits // ignore: cast_nullable_to_non_nullable
 as TmdbCreditsEntity,videos: null == videos ? _self._videos : videos // ignore: cast_nullable_to_non_nullable
 as List<MovieVideoEntity>,isFavorite: null == isFavorite ? _self.isFavorite : isFavorite // ignore: cast_nullable_to_non_nullable
 as bool,selectedTab: null == selectedTab ? _self.selectedTab : selectedTab // ignore: cast_nullable_to_non_nullable
-as int,
+as int,videoLoad: null == videoLoad ? _self.videoLoad : videoLoad // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

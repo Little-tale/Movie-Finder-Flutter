@@ -13,5 +13,6 @@ sealed class MovieDetailState with _$MovieDetailState {
     required List<MovieVideoEntity> videos,
     @Default(false) bool isFavorite,
     @Default(0) int selectedTab,
+    @Default(false) bool videoLoad,
   }) = _MovieDetailState;
 }

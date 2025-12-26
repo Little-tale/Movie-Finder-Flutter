@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_finder/src/common/app/app_size.dart';
 import 'package:movie_finder/src/common/providers/timer_provider.dart';
-import 'package:movie_finder/src/common/providers/youtubeControllerProvider.dart';
 import 'package:movie_finder/src/common/ui/ext/ex_app_decoration.dart';
 import 'package:movie_finder/src/common/ui/w_network_image_.dart';
 import 'package:movie_finder/src/common/ui/w_star_rating.dart';
+import 'package:movie_finder/src/common/ui/youtube/w_youtube_players.dart';
 import 'package:movie_finder/src/data/Entity/credits/e_tmdb_credits_entity.dart';
 import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
 import 'package:movie_finder/src/data/Entity/movie_video/e_movie_video_entity.dart';
@@ -14,7 +14,6 @@ import 'package:movie_finder/src/data/Entity/product_company_entity/e_product_co
 import 'package:movie_finder/src/features/movie_detail/vm_movie_detail_view_model.dart';
 import 'package:movie_finder/src/features/movie_detail/vm_state/movie_detail_state.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class MovieDetailScreen extends ConsumerWidget {
   const MovieDetailScreen(this.movieID, {super.key});
@@ -23,7 +22,9 @@ class MovieDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(movieDetailVmProvider(movieID), (prev, next) {
+    final viewModelProvider = movieDetailVmProvider(movieID);
+
+    ref.listen(viewModelProvider, (prev, next) {
       final prevHasVideos = prev?.value?.videos.isNotEmpty ?? false;
       final nextHasVideos = next.value?.videos.isNotEmpty ?? false;
       if (!prevHasVideos && nextHasVideos) {
@@ -52,8 +53,16 @@ class MovieDetailScreen extends ConsumerWidget {
                   ],
                 ),
 
-                _header(ref, context, data, headerHeight).onTap(() {
-                  ref.read(timerProviderProvider.notifier).pulse(3.seconds);
+                _header(
+                  ref,
+                  context,
+                  viewModelProvider,
+                  data,
+                  headerHeight,
+                ).onTap(() {
+                  if (data.videoLoad) {
+                    ref.read(timerProviderProvider.notifier).pulse(3.seconds);
+                  }
                 }),
               ],
             );
@@ -72,6 +81,7 @@ class MovieDetailScreen extends ConsumerWidget {
   Widget _header(
     WidgetRef ref,
     BuildContext context,
+    MovieDetailVmProvider provider,
     MovieDetailState data,
     double headerHeight,
   ) {
@@ -85,17 +95,23 @@ class MovieDetailScreen extends ConsumerWidget {
             children: [
               Container(color: Colors.black, height: context.safeAreaTop),
 
-              data.videos.isEmpty
+              !data.videoLoad
                   ? _headerBackground(context, data.detail, headerHeight)
-                  : _movieVideos(ref, data.videos, headerHeight),
+                  : _movieVideos(ref, provider, data.videos, headerHeight),
             ],
           ),
-          _headerGradient(headerHeight),
+
+          AnimatedOpacity(
+            opacity: timer ? 1 : 0,
+            duration: 1.seconds,
+            child: _headerGradient(headerHeight),
+          ),
           AnimatedOpacity(
             opacity: timer ? 1 : 0,
             duration: 1.seconds,
             child: _headerOverlayText(data.detail),
           ),
+
           _headerBackButton(context),
         ],
       ),
@@ -363,26 +379,27 @@ class MovieDetailScreen extends ConsumerWidget {
 
   Widget _movieVideos(
     WidgetRef ref,
+    MovieDetailVmProvider provider,
     List<MovieVideoEntity> videos,
     double height,
   ) {
     if (videos.isEmpty) {
       return const SizedBox.shrink();
     }
-    final videoId = videos.first.key.trim();
-    debugPrint('youtube videoId=$videoId len=${videoId.length}');
-    final controller = ref.watch(
-      youtubeControllerProvider(videos.first.key.trim()),
-    );
+
+    final videoIds = videos.map((e) => e.key).toList();
 
     return Container(
       color: Colors.black,
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(18),
-          topRight: Radius.circular(18),
+        borderRadius: BorderRadiusGeometry.circular(18),
+        child: YoutubePlayers(
+          ids: videoIds,
+          onFinished: () {
+            ref.read(provider.notifier).changeVideoLoad(false);
+            ref.read(timerProviderProvider.notifier).show();
+          },
         ),
-        child: YoutubePlayer(aspectRatio: 16 / 9, controller: controller),
       ),
     );
   }
