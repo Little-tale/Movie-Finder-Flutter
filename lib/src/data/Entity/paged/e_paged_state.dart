@@ -7,7 +7,7 @@ sealed class PagedState<T> with _$PagedState<T> {
   const factory PagedState({
     required List<T> items,
     required int page,
-    required int totalPages,
+    // required int totalPages,
     required bool isLoadingMore,
   }) = _PagedState<T>;
 }

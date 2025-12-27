@@ -32,25 +32,21 @@ final class VmMovieListViewModel extends AsyncNotifier<MovieListScreenState> {
           topRatedResult,
         ).take(10).toList(),
         page: 1,
-        totalPages: 1,
         isLoadingMore: true,
       ),
       popularItems: PagedState<SimpleMovieEntity>(
         items: _handleResult<SimpleMovieEntity>(popularResult),
         page: 1,
-        totalPages: 1,
         isLoadingMore: true,
       ),
       upcomingItems: PagedState<SimpleMovieEntity>(
         items: _handleResult<SimpleMovieEntity>(upcomingResult),
         page: 1,
-        totalPages: 1,
         isLoadingMore: true,
       ),
       nowPlayingItems: PagedState<SimpleMovieEntity>(
         items: _handleResult<SimpleMovieEntity>(nowPlayingResult),
         page: 1,
-        totalPages: 1,
         isLoadingMore: true,
       ),
     );

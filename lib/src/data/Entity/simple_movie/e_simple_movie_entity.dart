@@ -9,6 +9,7 @@ sealed class SimpleMovieEntity with _$SimpleMovieEntity {
     required String title,
     DateTime? releaseDate,
     String? posterUrl,
+    String? backgroundUrl,
     required double rating,
   }) = _SimpleMovieEntity;
 }

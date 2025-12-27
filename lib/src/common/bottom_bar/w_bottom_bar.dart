@@ -1,9 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_finder/src/common/app/app_size.dart';
 import 'package:movie_finder/src/common/bottom_bar/w_bottom_nav_button.dart';
+import 'package:movie_finder/src/features/movie_search/search_scroll_provider/search_scroll_provider.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 enum TabItem {
   home(0),
@@ -33,23 +36,27 @@ enum TabItem {
 }
 
 // MARK: UI
-class AppBottomBar extends StatelessWidget {
+class AppBottomBar extends ConsumerWidget {
   final cornerRadius = 24.0;
   final StatefulNavigationShell navigationShell;
 
   const AppBottomBar({super.key, required this.navigationShell});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = navigationShell.currentIndex;
 
     return SizedBox(
       height: context.bottomBarHeight + context.bottomSafeArea,
-      child: _buildBottomBar(context, currentIndex),
+      child: _buildBottomBar(context, currentIndex, ref),
     );
   }
 
-  Widget _buildBottomBar(BuildContext context, int currentIndex) {
+  Widget _buildBottomBar(
+    BuildContext context,
+    int currentIndex,
+    WidgetRef ref,
+  ) {
     final sidePad = context.blockSizeHorizontal * 4; // 최소 패딩
     const maxBarWidth = 520.0;
     const maxBarHeight = 80.0;
@@ -61,13 +68,13 @@ class AppBottomBar extends StatelessWidget {
             maxWidth: maxBarWidth,
             maxHeight: maxBarHeight,
           ),
-          child: barItems(context, currentIndex),
+          child: barItems(context, currentIndex, ref),
         ),
       ),
     );
   }
 
-  Widget barItems(BuildContext context, int currentIndex) {
+  Widget barItems(BuildContext context, int currentIndex, WidgetRef ref) {
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
@@ -87,6 +94,17 @@ class AppBottomBar extends StatelessWidget {
                     currentIndex: currentIndex,
                     onTab: (index) {
                       navigationShell.goBranch(index);
+                      // MARK: Search Tab Index
+                      if (index == 1) {
+                        final c = ref.read(searchScrollControllerProvider);
+                        if (c.hasClients) {
+                          c.animateTo(
+                            0,
+                            duration: 250.milliseconds,
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      }
                     },
                   ),
                 )

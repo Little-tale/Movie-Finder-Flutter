@@ -14,7 +14,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PagedState<T> {
 
- List<T> get items; int get page; int get totalPages; bool get isLoadingMore;
+ List<T> get items; int get page;// required int totalPages,
+ bool get isLoadingMore;
 /// Create a copy of PagedState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,16 @@ $PagedStateCopyWith<T, PagedState<T>> get copyWith => _$PagedStateCopyWithImpl<T
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PagedState<T>&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.page, page) || other.page == page)&&(identical(other.totalPages, totalPages) || other.totalPages == totalPages)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PagedState<T>&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.page, page) || other.page == page)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),page,totalPages,isLoadingMore);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),page,isLoadingMore);
 
 @override
 String toString() {
-  return 'PagedState<$T>(items: $items, page: $page, totalPages: $totalPages, isLoadingMore: $isLoadingMore)';
+  return 'PagedState<$T>(items: $items, page: $page, isLoadingMore: $isLoadingMore)';
 }
 
 
@@ -45,7 +46,7 @@ abstract mixin class $PagedStateCopyWith<T,$Res>  {
   factory $PagedStateCopyWith(PagedState<T> value, $Res Function(PagedState<T>) _then) = _$PagedStateCopyWithImpl;
 @useResult
 $Res call({
- List<T> items, int page, int totalPages, bool isLoadingMore
+ List<T> items, int page, bool isLoadingMore
 });
 
 
@@ -62,11 +63,10 @@ class _$PagedStateCopyWithImpl<T,$Res>
 
 /// Create a copy of PagedState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? page = null,Object? totalPages = null,Object? isLoadingMore = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? page = null,Object? isLoadingMore = null,}) {
   return _then(_self.copyWith(
 items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<T>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
-as int,totalPages: null == totalPages ? _self.totalPages : totalPages // ignore: cast_nullable_to_non_nullable
 as int,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -150,10 +150,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<T> items,  int page,  int totalPages,  bool isLoadingMore)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<T> items,  int page,  bool isLoadingMore)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PagedState() when $default != null:
-return $default(_that.items,_that.page,_that.totalPages,_that.isLoadingMore);case _:
+return $default(_that.items,_that.page,_that.isLoadingMore);case _:
   return orElse();
 
 }
@@ -171,10 +171,10 @@ return $default(_that.items,_that.page,_that.totalPages,_that.isLoadingMore);cas
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<T> items,  int page,  int totalPages,  bool isLoadingMore)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<T> items,  int page,  bool isLoadingMore)  $default,) {final _that = this;
 switch (_that) {
 case _PagedState():
-return $default(_that.items,_that.page,_that.totalPages,_that.isLoadingMore);}
+return $default(_that.items,_that.page,_that.isLoadingMore);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -188,10 +188,10 @@ return $default(_that.items,_that.page,_that.totalPages,_that.isLoadingMore);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<T> items,  int page,  int totalPages,  bool isLoadingMore)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<T> items,  int page,  bool isLoadingMore)?  $default,) {final _that = this;
 switch (_that) {
 case _PagedState() when $default != null:
-return $default(_that.items,_that.page,_that.totalPages,_that.isLoadingMore);case _:
+return $default(_that.items,_that.page,_that.isLoadingMore);case _:
   return null;
 
 }
@@ -203,7 +203,7 @@ return $default(_that.items,_that.page,_that.totalPages,_that.isLoadingMore);cas
 
 
 class _PagedState<T> implements PagedState<T> {
-  const _PagedState({required final  List<T> items, required this.page, required this.totalPages, required this.isLoadingMore}): _items = items;
+  const _PagedState({required final  List<T> items, required this.page, required this.isLoadingMore}): _items = items;
   
 
  final  List<T> _items;
@@ -214,7 +214,7 @@ class _PagedState<T> implements PagedState<T> {
 }
 
 @override final  int page;
-@override final  int totalPages;
+// required int totalPages,
 @override final  bool isLoadingMore;
 
 /// Create a copy of PagedState
@@ -227,16 +227,16 @@ _$PagedStateCopyWith<T, _PagedState<T>> get copyWith => __$PagedStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PagedState<T>&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.page, page) || other.page == page)&&(identical(other.totalPages, totalPages) || other.totalPages == totalPages)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PagedState<T>&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.page, page) || other.page == page)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),page,totalPages,isLoadingMore);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),page,isLoadingMore);
 
 @override
 String toString() {
-  return 'PagedState<$T>(items: $items, page: $page, totalPages: $totalPages, isLoadingMore: $isLoadingMore)';
+  return 'PagedState<$T>(items: $items, page: $page, isLoadingMore: $isLoadingMore)';
 }
 
 
@@ -247,7 +247,7 @@ abstract mixin class _$PagedStateCopyWith<T,$Res> implements $PagedStateCopyWith
   factory _$PagedStateCopyWith(_PagedState<T> value, $Res Function(_PagedState<T>) _then) = __$PagedStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<T> items, int page, int totalPages, bool isLoadingMore
+ List<T> items, int page, bool isLoadingMore
 });
 
 
@@ -264,11 +264,10 @@ class __$PagedStateCopyWithImpl<T,$Res>
 
 /// Create a copy of PagedState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? page = null,Object? totalPages = null,Object? isLoadingMore = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? page = null,Object? isLoadingMore = null,}) {
   return _then(_PagedState<T>(
 items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
 as List<T>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
-as int,totalPages: null == totalPages ? _self.totalPages : totalPages // ignore: cast_nullable_to_non_nullable
 as int,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
 as bool,
   ));

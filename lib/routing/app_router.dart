@@ -4,6 +4,7 @@ import 'package:movie_finder/routing/app_bottom_shell.dart';
 import 'package:movie_finder/routing/routes.dart';
 import 'package:movie_finder/src/features/movie_detail/s_movie_detail.dart';
 import 'package:movie_finder/src/features/movie_list/s_movie_list.dart';
+import 'package:movie_finder/src/features/movie_search/s_movie_search.dart';
 import 'package:movie_finder/src/features/splash/w_splash.dart';
 import 'package:movie_finder/w_test.dart';
 
@@ -51,9 +52,9 @@ GoRouter createRouter() {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                name: RouteNames.topRated,
-                path: Routes.topRated,
-                builder: (context, state) => const TestWidget(number: 2),
+                name: RouteNames.search,
+                path: Routes.search,
+                builder: (context, state) => const MovieSearchScreen(),
               ),
             ],
           ),

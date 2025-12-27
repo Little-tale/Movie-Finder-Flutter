@@ -22,6 +22,9 @@ final class MovieMapper {
       posterUrl: dto.posterPath == null
           ? null
           : tmdbPosterPath(path: dto.posterPath!),
+      backgroundUrl: dto.backdropPath == null
+          ? null
+          : tmdbBackDropUrl(path: dto.backdropPath!),
       releaseDate: dto.releaseDate,
     );
   }

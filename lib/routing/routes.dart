@@ -6,13 +6,15 @@ switch 매칭에서 누락된 케이스를 컴파일 타임에 잡아주는(=exh
 sealed class Routes {
   static const splash = '/${RouteNames.splash}';
   static const home = '/${RouteNames.home}';
-  static const topRated = '/${RouteNames.topRated}';
+  // static const topRated = '/${RouteNames.topRated}';
   static const detail = '/${RouteNames.detail}/:id';
+  static const search = '/${RouteNames.search}';
 }
 
 sealed class RouteNames {
   static const splash = 'splash';
   static const home = 'home';
-  static const topRated = 'topRated';
+  // static const topRated = 'topRated';
   static const detail = 'detail';
+  static const search = 'search';
 }
