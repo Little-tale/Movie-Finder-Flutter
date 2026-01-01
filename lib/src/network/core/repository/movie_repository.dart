@@ -4,6 +4,7 @@ import 'package:movie_finder/src/data/Entity/movie_video/e_movie_video_entity.da
 import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
 import 'package:movie_finder/src/data/mapper/movie_mapper.dart';
 import 'package:movie_finder/src/network/TMDB/movie_list/tmdb_movie_list_client.dart';
+import 'package:movie_finder/src/network/TMDB/search_movie/search_movie_client.dart';
 import 'package:movie_finder/src/network/core/dio_guard.dart';
 import 'package:movie_finder/utils/result.dart';
 

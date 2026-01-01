@@ -4,9 +4,14 @@ import 'package:movie_finder/src/features/movie_search/searchBar/pv_search_bar.d
 import 'package:velocity_x/velocity_x.dart';
 
 class SearchBarWidget extends ConsumerWidget {
-  const SearchBarWidget({super.key, required this.focusNode});
+  const SearchBarWidget({
+    super.key,
+    required this.focusNode,
+    required this.onEditingComplete,
+  });
 
   final FocusNode focusNode;
+  final VoidCallback onEditingComplete;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,6 +45,7 @@ class SearchBarWidget extends ConsumerWidget {
               onChanged: (value) {
                 ref.read(searchBarProvider.notifier).changedText(value);
               },
+              onEditingComplete: onEditingComplete,
             ),
           ),
         ],

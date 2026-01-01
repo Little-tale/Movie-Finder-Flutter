@@ -23,10 +23,14 @@ class _SearchMovieClient implements SearchMovieClient {
   Future<TmdbCommonResultDto<TmdbMovieDto>> searchMovie({
     required String query,
     required int page,
-    required String language,
+    String language = 'ko-KR',
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'query': query, r'page': page};
+    final queryParameters = <String, dynamic>{
+      r'query': query,
+      r'page': page,
+      r'language': language,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<TmdbCommonResultDto<TmdbMovieDto>>(

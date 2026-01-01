@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_finder/routing/routes.dart';
 import 'package:movie_finder/src/common/app/app_size.dart';
+import 'package:movie_finder/src/common/providers/scroll_controller_provider.dart';
 import 'package:movie_finder/src/common/ui/w_network_image_.dart';
 import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
-import 'package:movie_finder/src/features/movie_search/search_scroll_provider/search_scroll_provider.dart';
+// import 'package:movie_finder/src/features/movie_search/search_scroll_provider/search_scroll_provider.dart';
 import 'package:movie_finder/src/features/movie_search/search_top_bar/w_search_top_bar.dart';
 import 'package:movie_finder/src/features/movie_search/view_model/movie_search_state.dart';
 import 'package:movie_finder/src/features/movie_search/view_model/vm_movie_search.dart';
@@ -23,13 +24,34 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(movieSearchViewModelProvider);
-    final controller = ref.watch(searchScrollControllerProvider);
+
+    final emptyScrollController = ref.watch(
+      useScrollControllerProvider('emptyScroll'),
+    );
+    final searchResultScrollController = ref.watch(
+      useScrollControllerProvider('searchResult'),
+    );
 
     return Scaffold(
-      appBar: AppBar(title: SearchTopBar()),
+      appBar: AppBar(
+        title: SearchTopBar(
+          onEditingComplete: () {
+            final notifier = ref.read(movieSearchViewModelProvider.notifier);
+
+            notifier.searchText(isFirst: true);
+          },
+        ),
+      ),
       body: state.when(
         data: (state) {
-          return _emptyBody(state: state, controller: controller);
+          if (state.searchResultsItems.items.isEmpty) {
+            return _emptyBody(state: state, controller: emptyScrollController);
+          } else {
+            return _searchListView(
+              state: state,
+              controller: searchResultScrollController,
+            );
+          }
         },
         error: (e, s) => Text('$e'),
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -45,6 +67,7 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
     final recommendItems = state.recommendItems.items;
 
     return CustomScrollView(
+      key: const ValueKey("emptyScroll"),
       controller: controller,
       slivers: [
         // MARK: People watching (horizontal)
@@ -79,6 +102,60 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
           child: context.bottomBarWithSafeAreaHeight.heightBox.pOnly(bottom: 8),
         ),
       ],
+    );
+  }
+
+  Widget _searchListView({
+    required SearchMovieScreenState state,
+    required ScrollController controller,
+  }) {
+    final items = state.searchResultsItems.items;
+
+    return NotificationListener<ScrollNotification>(
+      onNotification: (n) {
+        if (n.metrics.pixels >= n.metrics.maxScrollExtent - 150) {
+          ref
+              .read(movieSearchViewModelProvider.notifier)
+              .searchText(isFirst: false);
+        }
+        return false;
+      },
+      child: CustomScrollView(
+        key: const ValueKey("searchResult"),
+        controller: controller,
+        slivers: [
+          SliverToBoxAdapter(
+            child: '영화 & 시리즈'.text.bold
+                .size(20)
+                .make()
+                .pSymmetric(v: 12, h: 16),
+          ),
+
+          SliverGrid(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return _searchListItem(items[index]).onTap(() {
+                context.pushNamed(
+                  RouteNames.detail,
+                  pathParameters: {'id': items[index].id.toString()},
+                );
+              });
+            }, childCount: items.length),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 0.7,
+            ),
+          ),
+
+          // MARK: Bottom safe area spacer
+          SliverToBoxAdapter(
+            child: context.bottomBarWithSafeAreaHeight.heightBox.pOnly(
+              bottom: 8,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -134,6 +211,25 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
         )
         .pOnly(left: index == 0 ? 6 : 0)
         .pOnly(right: (datas.length - 1) == index ? 6 : 0);
+  }
+
+  Widget _searchListItem(SimpleMovieEntity item) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.3),
+            width: 1.5,
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: NetworkImageWidget(imageUrl: item.posterUrl),
+        ),
+      ),
+    );
   }
 
   Widget _verticalListItem(List<SimpleMovieEntity> datas, int index) {

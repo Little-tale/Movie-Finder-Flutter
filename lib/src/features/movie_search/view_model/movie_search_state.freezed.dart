@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SearchMovieScreenState {
 
- PagedState<SimpleMovieEntity> get popularItems; PagedState<SimpleMovieEntity> get recommendItems;
+ PagedState<SimpleMovieEntity> get popularItems; PagedState<SimpleMovieEntity> get recommendItems; PagedState<SimpleMovieEntity> get searchResultsItems;
 /// Create a copy of SearchMovieScreenState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SearchMovieScreenStateCopyWith<SearchMovieScreenState> get copyWith => _$Search
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchMovieScreenState&&(identical(other.popularItems, popularItems) || other.popularItems == popularItems)&&(identical(other.recommendItems, recommendItems) || other.recommendItems == recommendItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchMovieScreenState&&(identical(other.popularItems, popularItems) || other.popularItems == popularItems)&&(identical(other.recommendItems, recommendItems) || other.recommendItems == recommendItems)&&(identical(other.searchResultsItems, searchResultsItems) || other.searchResultsItems == searchResultsItems));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,popularItems,recommendItems);
+int get hashCode => Object.hash(runtimeType,popularItems,recommendItems,searchResultsItems);
 
 @override
 String toString() {
-  return 'SearchMovieScreenState(popularItems: $popularItems, recommendItems: $recommendItems)';
+  return 'SearchMovieScreenState(popularItems: $popularItems, recommendItems: $recommendItems, searchResultsItems: $searchResultsItems)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $SearchMovieScreenStateCopyWith<$Res>  {
   factory $SearchMovieScreenStateCopyWith(SearchMovieScreenState value, $Res Function(SearchMovieScreenState) _then) = _$SearchMovieScreenStateCopyWithImpl;
 @useResult
 $Res call({
- PagedState<SimpleMovieEntity> popularItems, PagedState<SimpleMovieEntity> recommendItems
+ PagedState<SimpleMovieEntity> popularItems, PagedState<SimpleMovieEntity> recommendItems, PagedState<SimpleMovieEntity> searchResultsItems
 });
 
 
-$PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems;$PagedStateCopyWith<SimpleMovieEntity, $Res> get recommendItems;
+$PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems;$PagedStateCopyWith<SimpleMovieEntity, $Res> get recommendItems;$PagedStateCopyWith<SimpleMovieEntity, $Res> get searchResultsItems;
 
 }
 /// @nodoc
@@ -62,10 +62,11 @@ class _$SearchMovieScreenStateCopyWithImpl<$Res>
 
 /// Create a copy of SearchMovieScreenState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? popularItems = null,Object? recommendItems = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? popularItems = null,Object? recommendItems = null,Object? searchResultsItems = null,}) {
   return _then(_self.copyWith(
 popularItems: null == popularItems ? _self.popularItems : popularItems // ignore: cast_nullable_to_non_nullable
 as PagedState<SimpleMovieEntity>,recommendItems: null == recommendItems ? _self.recommendItems : recommendItems // ignore: cast_nullable_to_non_nullable
+as PagedState<SimpleMovieEntity>,searchResultsItems: null == searchResultsItems ? _self.searchResultsItems : searchResultsItems // ignore: cast_nullable_to_non_nullable
 as PagedState<SimpleMovieEntity>,
   ));
 }
@@ -86,6 +87,15 @@ $PagedStateCopyWith<SimpleMovieEntity, $Res> get recommendItems {
   
   return $PagedStateCopyWith<SimpleMovieEntity, $Res>(_self.recommendItems, (value) {
     return _then(_self.copyWith(recommendItems: value));
+  });
+}/// Create a copy of SearchMovieScreenState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PagedStateCopyWith<SimpleMovieEntity, $Res> get searchResultsItems {
+  
+  return $PagedStateCopyWith<SimpleMovieEntity, $Res>(_self.searchResultsItems, (value) {
+    return _then(_self.copyWith(searchResultsItems: value));
   });
 }
 }
@@ -166,10 +176,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PagedState<SimpleMovieEntity> popularItems,  PagedState<SimpleMovieEntity> recommendItems)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PagedState<SimpleMovieEntity> popularItems,  PagedState<SimpleMovieEntity> recommendItems,  PagedState<SimpleMovieEntity> searchResultsItems)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SearchMovieScreenState() when $default != null:
-return $default(_that.popularItems,_that.recommendItems);case _:
+return $default(_that.popularItems,_that.recommendItems,_that.searchResultsItems);case _:
   return orElse();
 
 }
@@ -187,10 +197,10 @@ return $default(_that.popularItems,_that.recommendItems);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PagedState<SimpleMovieEntity> popularItems,  PagedState<SimpleMovieEntity> recommendItems)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PagedState<SimpleMovieEntity> popularItems,  PagedState<SimpleMovieEntity> recommendItems,  PagedState<SimpleMovieEntity> searchResultsItems)  $default,) {final _that = this;
 switch (_that) {
 case _SearchMovieScreenState():
-return $default(_that.popularItems,_that.recommendItems);}
+return $default(_that.popularItems,_that.recommendItems,_that.searchResultsItems);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -204,10 +214,10 @@ return $default(_that.popularItems,_that.recommendItems);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PagedState<SimpleMovieEntity> popularItems,  PagedState<SimpleMovieEntity> recommendItems)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PagedState<SimpleMovieEntity> popularItems,  PagedState<SimpleMovieEntity> recommendItems,  PagedState<SimpleMovieEntity> searchResultsItems)?  $default,) {final _that = this;
 switch (_that) {
 case _SearchMovieScreenState() when $default != null:
-return $default(_that.popularItems,_that.recommendItems);case _:
+return $default(_that.popularItems,_that.recommendItems,_that.searchResultsItems);case _:
   return null;
 
 }
@@ -219,11 +229,12 @@ return $default(_that.popularItems,_that.recommendItems);case _:
 
 
 class _SearchMovieScreenState implements SearchMovieScreenState {
-   _SearchMovieScreenState({required this.popularItems, required this.recommendItems});
+   _SearchMovieScreenState({required this.popularItems, required this.recommendItems, required this.searchResultsItems});
   
 
 @override final  PagedState<SimpleMovieEntity> popularItems;
 @override final  PagedState<SimpleMovieEntity> recommendItems;
+@override final  PagedState<SimpleMovieEntity> searchResultsItems;
 
 /// Create a copy of SearchMovieScreenState
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +246,16 @@ _$SearchMovieScreenStateCopyWith<_SearchMovieScreenState> get copyWith => __$Sea
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchMovieScreenState&&(identical(other.popularItems, popularItems) || other.popularItems == popularItems)&&(identical(other.recommendItems, recommendItems) || other.recommendItems == recommendItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchMovieScreenState&&(identical(other.popularItems, popularItems) || other.popularItems == popularItems)&&(identical(other.recommendItems, recommendItems) || other.recommendItems == recommendItems)&&(identical(other.searchResultsItems, searchResultsItems) || other.searchResultsItems == searchResultsItems));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,popularItems,recommendItems);
+int get hashCode => Object.hash(runtimeType,popularItems,recommendItems,searchResultsItems);
 
 @override
 String toString() {
-  return 'SearchMovieScreenState(popularItems: $popularItems, recommendItems: $recommendItems)';
+  return 'SearchMovieScreenState(popularItems: $popularItems, recommendItems: $recommendItems, searchResultsItems: $searchResultsItems)';
 }
 
 
@@ -255,11 +266,11 @@ abstract mixin class _$SearchMovieScreenStateCopyWith<$Res> implements $SearchMo
   factory _$SearchMovieScreenStateCopyWith(_SearchMovieScreenState value, $Res Function(_SearchMovieScreenState) _then) = __$SearchMovieScreenStateCopyWithImpl;
 @override @useResult
 $Res call({
- PagedState<SimpleMovieEntity> popularItems, PagedState<SimpleMovieEntity> recommendItems
+ PagedState<SimpleMovieEntity> popularItems, PagedState<SimpleMovieEntity> recommendItems, PagedState<SimpleMovieEntity> searchResultsItems
 });
 
 
-@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems;@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get recommendItems;
+@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get popularItems;@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get recommendItems;@override $PagedStateCopyWith<SimpleMovieEntity, $Res> get searchResultsItems;
 
 }
 /// @nodoc
@@ -272,10 +283,11 @@ class __$SearchMovieScreenStateCopyWithImpl<$Res>
 
 /// Create a copy of SearchMovieScreenState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? popularItems = null,Object? recommendItems = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? popularItems = null,Object? recommendItems = null,Object? searchResultsItems = null,}) {
   return _then(_SearchMovieScreenState(
 popularItems: null == popularItems ? _self.popularItems : popularItems // ignore: cast_nullable_to_non_nullable
 as PagedState<SimpleMovieEntity>,recommendItems: null == recommendItems ? _self.recommendItems : recommendItems // ignore: cast_nullable_to_non_nullable
+as PagedState<SimpleMovieEntity>,searchResultsItems: null == searchResultsItems ? _self.searchResultsItems : searchResultsItems // ignore: cast_nullable_to_non_nullable
 as PagedState<SimpleMovieEntity>,
   ));
 }
@@ -297,6 +309,15 @@ $PagedStateCopyWith<SimpleMovieEntity, $Res> get recommendItems {
   
   return $PagedStateCopyWith<SimpleMovieEntity, $Res>(_self.recommendItems, (value) {
     return _then(_self.copyWith(recommendItems: value));
+  });
+}/// Create a copy of SearchMovieScreenState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PagedStateCopyWith<SimpleMovieEntity, $Res> get searchResultsItems {
+  
+  return $PagedStateCopyWith<SimpleMovieEntity, $Res>(_self.searchResultsItems, (value) {
+    return _then(_self.copyWith(searchResultsItems: value));
   });
 }
 }

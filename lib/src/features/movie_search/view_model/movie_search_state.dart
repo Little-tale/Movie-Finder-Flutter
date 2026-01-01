@@ -9,5 +9,6 @@ sealed class SearchMovieScreenState with _$SearchMovieScreenState {
   factory SearchMovieScreenState({
     required PagedState<SimpleMovieEntity> popularItems,
     required PagedState<SimpleMovieEntity> recommendItems,
+    required PagedState<SimpleMovieEntity> searchResultsItems,
   }) = _SearchMovieScreenState;
 }

@@ -5,8 +5,8 @@ import 'package:movie_finder/src/features/movie_search/searchBar/w_search_bar.da
 import 'package:velocity_x/velocity_x.dart';
 
 class SearchTopBar extends ConsumerStatefulWidget {
-  const SearchTopBar({super.key});
-
+  const SearchTopBar({super.key, required this.onEditingComplete});
+  final VoidCallback onEditingComplete;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchTopBarState();
 }
@@ -29,10 +29,18 @@ class _SearchTopBarState extends ConsumerState<SearchTopBar> {
     return HStack([
       _leadingTitle(isFocus: state.isFocus),
       8.widthBox,
-      Expanded(child: SearchBarWidget(focusNode: _focusNode)),
+
+      Expanded(
+        // MARK: SearchBar
+        child: SearchBarWidget(
+          focusNode: _focusNode,
+          onEditingComplete: widget.onEditingComplete,
+        ),
+      ),
     ]);
   }
 
+  // MARK: Title
   Widget _leadingTitle({required bool isFocus}) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 220),

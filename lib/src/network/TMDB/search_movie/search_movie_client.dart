@@ -14,6 +14,6 @@ abstract class SearchMovieClient {
   Future<TmdbCommonResultDto<TmdbMovieDto>> searchMovie({
     @Query('query') required String query,
     @Query('page') required int page,
-    required String language,
+    @Query('language') String language = 'ko-KR',
   });
 }
