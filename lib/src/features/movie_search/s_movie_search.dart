@@ -37,7 +37,7 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
         title: SearchTopBar(
           onEditingComplete: () {
             final notifier = ref.read(movieSearchViewModelProvider.notifier);
-
+            FocusScope.of(context).unfocus();
             notifier.searchText(isFirst: true);
           },
         ),
@@ -123,6 +123,7 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
       child: CustomScrollView(
         key: const ValueKey("searchResult"),
         controller: controller,
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         slivers: [
           SliverToBoxAdapter(
             child: '영화 & 시리즈'.text.bold
@@ -133,17 +134,22 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
 
           SliverGrid(
             delegate: SliverChildBuilderDelegate((context, index) {
-              return _searchListItem(items[index]).onTap(() {
-                context.pushNamed(
-                  RouteNames.detail,
-                  pathParameters: {'id': items[index].id.toString()},
-                );
-              });
+              final pos = index + 1;
+              final double padding = 8;
+              return _searchListItem(items[index])
+                  .pOnly(left: (pos % 3 == 1) ? padding : 0)
+                  .pOnly(right: (pos % 3 == 0) ? padding : 0)
+                  .onTap(() {
+                    context.pushNamed(
+                      RouteNames.detail,
+                      pathParameters: {'id': items[index].id.toString()},
+                    );
+                  });
             }, childCount: items.length),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
               childAspectRatio: 0.7,
             ),
           ),
@@ -214,20 +220,17 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
   }
 
   Widget _searchListItem(SimpleMovieEntity item) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.white.withValues(alpha: 0.3),
-            width: 1.5,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.3),
+          width: 1.5,
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: NetworkImageWidget(imageUrl: item.posterUrl),
-        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: NetworkImageWidget(imageUrl: item.posterUrl),
       ),
     );
   }

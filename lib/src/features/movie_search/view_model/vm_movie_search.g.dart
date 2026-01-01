@@ -35,7 +35,7 @@ final class MovieSearchViewModelProvider
 }
 
 String _$movieSearchViewModelHash() =>
-    r'63716dbf75c19befe7501dfc51035fa67bc2d206';
+    r'e9cbfb469973bd520a16015aca6f7c4c23bae7c0';
 
 abstract class _$MovieSearchViewModel
     extends $AsyncNotifier<SearchMovieScreenState> {

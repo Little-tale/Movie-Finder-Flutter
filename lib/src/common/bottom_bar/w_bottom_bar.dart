@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_finder/src/common/app/app_size.dart';
 import 'package:movie_finder/src/common/bottom_bar/w_bottom_nav_button.dart';
-import 'package:movie_finder/src/features/movie_search/search_scroll_provider/search_scroll_provider.dart';
+import 'package:movie_finder/src/common/providers/scroll_controller_provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 enum TabItem {
@@ -96,7 +96,9 @@ class AppBottomBar extends ConsumerWidget {
                       navigationShell.goBranch(index);
                       // MARK: Search Tab Index
                       if (index == 1) {
-                        final c = ref.read(searchScrollControllerProvider);
+                        final c = ref.read(
+                          useScrollControllerProvider('emptyScroll'),
+                        );
                         if (c.hasClients) {
                           c.animateTo(
                             0,

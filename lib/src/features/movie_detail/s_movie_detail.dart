@@ -91,6 +91,7 @@ class MovieDetailScreen extends ConsumerWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
+          Container(color: Colors.black, height: headerHeight),
           Column(
             children: [
               Container(color: Colors.black, height: context.safeAreaTop),
@@ -391,6 +392,8 @@ class MovieDetailScreen extends ConsumerWidget {
 
     return Container(
       color: Colors.black,
+      height: height,
+      width: double.infinity,
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(18),
         child: YoutubePlayers(

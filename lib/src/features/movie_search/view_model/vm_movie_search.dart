@@ -64,7 +64,10 @@ class MovieSearchViewModel extends _$MovieSearchViewModel {
 
     if (isFirst) {
       page = 1;
-      searchItems = searchItems.copyWith(items: [], isLoadingMore: false);
+      if (text.isEmpty) {
+        searchItems = searchItems.copyWith(items: [], isLoadingMore: false);
+      }
+      searchItems = searchItems.copyWith(isLoadingMore: false);
     } else {
       page += 1;
       searchItems = searchItems.copyWith(isLoadingMore: false);
