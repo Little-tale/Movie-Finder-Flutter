@@ -1,6 +1,7 @@
 import 'package:movie_finder/src/common/utils/utils.dart';
 import 'package:movie_finder/src/data/DB/DAO/favorite_db.dart';
 import 'package:movie_finder/src/data/DB/DAO/favorite_provider.dart';
+import 'package:movie_finder/src/data/DB/DAO/favorites_change_provider.dart';
 import 'package:movie_finder/src/features/movie_detail/vm_state/movie_detail_state.dart';
 import 'package:movie_finder/src/network/core/dio_provider.dart';
 import 'package:movie_finder/src/network/core/repository/movie_repository.dart';
@@ -83,10 +84,15 @@ class MovieDetailVm extends _$MovieDetailVm {
       state.value!.copyWith(isFavorite: !state.value!.isFavorite),
     );
 
-    final favs = await ref.watch(favoriteDbProvider.future);
+    final favs = await ref.read(favoriteDbProvider.future);
 
     final detail = state.value!.detail;
 
-    favs.toggle(movieId: detail.movieID, title: detail.movieName);
+    await favs.toggle(
+      movieId: detail.movieID,
+      title: detail.movieName,
+      genreIds: detail.genreIds,
+    );
+    ref.read(favoritesChangedProvider.notifier).bump();
   }
 }

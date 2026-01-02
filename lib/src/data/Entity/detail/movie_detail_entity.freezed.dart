@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MovieDetailEntity {
 
- String get movieID; String? get backImageUrlString; String? get posterImageUrlString; String get movieName; String get movieDetailString; bool get likeState; DateTime? get releaseDate; double get voteAverage; double get starRate; List<String> get genres; List<ProductCompanyEntity> get productionCompanies;
+ String get movieID; String? get backImageUrlString; String? get posterImageUrlString; String get movieName; String get movieDetailString; bool get likeState; DateTime? get releaseDate; double get voteAverage; double get starRate; List<String> get genres; List<int> get genreIds; List<ProductCompanyEntity> get productionCompanies;
 /// Create a copy of MovieDetailEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $MovieDetailEntityCopyWith<MovieDetailEntity> get copyWith => _$MovieDetailEntit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MovieDetailEntity&&(identical(other.movieID, movieID) || other.movieID == movieID)&&(identical(other.backImageUrlString, backImageUrlString) || other.backImageUrlString == backImageUrlString)&&(identical(other.posterImageUrlString, posterImageUrlString) || other.posterImageUrlString == posterImageUrlString)&&(identical(other.movieName, movieName) || other.movieName == movieName)&&(identical(other.movieDetailString, movieDetailString) || other.movieDetailString == movieDetailString)&&(identical(other.likeState, likeState) || other.likeState == likeState)&&(identical(other.releaseDate, releaseDate) || other.releaseDate == releaseDate)&&(identical(other.voteAverage, voteAverage) || other.voteAverage == voteAverage)&&(identical(other.starRate, starRate) || other.starRate == starRate)&&const DeepCollectionEquality().equals(other.genres, genres)&&const DeepCollectionEquality().equals(other.productionCompanies, productionCompanies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MovieDetailEntity&&(identical(other.movieID, movieID) || other.movieID == movieID)&&(identical(other.backImageUrlString, backImageUrlString) || other.backImageUrlString == backImageUrlString)&&(identical(other.posterImageUrlString, posterImageUrlString) || other.posterImageUrlString == posterImageUrlString)&&(identical(other.movieName, movieName) || other.movieName == movieName)&&(identical(other.movieDetailString, movieDetailString) || other.movieDetailString == movieDetailString)&&(identical(other.likeState, likeState) || other.likeState == likeState)&&(identical(other.releaseDate, releaseDate) || other.releaseDate == releaseDate)&&(identical(other.voteAverage, voteAverage) || other.voteAverage == voteAverage)&&(identical(other.starRate, starRate) || other.starRate == starRate)&&const DeepCollectionEquality().equals(other.genres, genres)&&const DeepCollectionEquality().equals(other.genreIds, genreIds)&&const DeepCollectionEquality().equals(other.productionCompanies, productionCompanies));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,movieID,backImageUrlString,posterImageUrlString,movieName,movieDetailString,likeState,releaseDate,voteAverage,starRate,const DeepCollectionEquality().hash(genres),const DeepCollectionEquality().hash(productionCompanies));
+int get hashCode => Object.hash(runtimeType,movieID,backImageUrlString,posterImageUrlString,movieName,movieDetailString,likeState,releaseDate,voteAverage,starRate,const DeepCollectionEquality().hash(genres),const DeepCollectionEquality().hash(genreIds),const DeepCollectionEquality().hash(productionCompanies));
 
 @override
 String toString() {
-  return 'MovieDetailEntity(movieID: $movieID, backImageUrlString: $backImageUrlString, posterImageUrlString: $posterImageUrlString, movieName: $movieName, movieDetailString: $movieDetailString, likeState: $likeState, releaseDate: $releaseDate, voteAverage: $voteAverage, starRate: $starRate, genres: $genres, productionCompanies: $productionCompanies)';
+  return 'MovieDetailEntity(movieID: $movieID, backImageUrlString: $backImageUrlString, posterImageUrlString: $posterImageUrlString, movieName: $movieName, movieDetailString: $movieDetailString, likeState: $likeState, releaseDate: $releaseDate, voteAverage: $voteAverage, starRate: $starRate, genres: $genres, genreIds: $genreIds, productionCompanies: $productionCompanies)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $MovieDetailEntityCopyWith<$Res>  {
   factory $MovieDetailEntityCopyWith(MovieDetailEntity value, $Res Function(MovieDetailEntity) _then) = _$MovieDetailEntityCopyWithImpl;
 @useResult
 $Res call({
- String movieID, String? backImageUrlString, String? posterImageUrlString, String movieName, String movieDetailString, bool likeState, DateTime? releaseDate, double voteAverage, double starRate, List<String> genres, List<ProductCompanyEntity> productionCompanies
+ String movieID, String? backImageUrlString, String? posterImageUrlString, String movieName, String movieDetailString, bool likeState, DateTime? releaseDate, double voteAverage, double starRate, List<String> genres, List<int> genreIds, List<ProductCompanyEntity> productionCompanies
 });
 
 
@@ -62,7 +62,7 @@ class _$MovieDetailEntityCopyWithImpl<$Res>
 
 /// Create a copy of MovieDetailEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? movieID = null,Object? backImageUrlString = freezed,Object? posterImageUrlString = freezed,Object? movieName = null,Object? movieDetailString = null,Object? likeState = null,Object? releaseDate = freezed,Object? voteAverage = null,Object? starRate = null,Object? genres = null,Object? productionCompanies = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? movieID = null,Object? backImageUrlString = freezed,Object? posterImageUrlString = freezed,Object? movieName = null,Object? movieDetailString = null,Object? likeState = null,Object? releaseDate = freezed,Object? voteAverage = null,Object? starRate = null,Object? genres = null,Object? genreIds = null,Object? productionCompanies = null,}) {
   return _then(_self.copyWith(
 movieID: null == movieID ? _self.movieID : movieID // ignore: cast_nullable_to_non_nullable
 as String,backImageUrlString: freezed == backImageUrlString ? _self.backImageUrlString : backImageUrlString // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,8 @@ as bool,releaseDate: freezed == releaseDate ? _self.releaseDate : releaseDate //
 as DateTime?,voteAverage: null == voteAverage ? _self.voteAverage : voteAverage // ignore: cast_nullable_to_non_nullable
 as double,starRate: null == starRate ? _self.starRate : starRate // ignore: cast_nullable_to_non_nullable
 as double,genres: null == genres ? _self.genres : genres // ignore: cast_nullable_to_non_nullable
-as List<String>,productionCompanies: null == productionCompanies ? _self.productionCompanies : productionCompanies // ignore: cast_nullable_to_non_nullable
+as List<String>,genreIds: null == genreIds ? _self.genreIds : genreIds // ignore: cast_nullable_to_non_nullable
+as List<int>,productionCompanies: null == productionCompanies ? _self.productionCompanies : productionCompanies // ignore: cast_nullable_to_non_nullable
 as List<ProductCompanyEntity>,
   ));
 }
@@ -157,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String movieID,  String? backImageUrlString,  String? posterImageUrlString,  String movieName,  String movieDetailString,  bool likeState,  DateTime? releaseDate,  double voteAverage,  double starRate,  List<String> genres,  List<ProductCompanyEntity> productionCompanies)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String movieID,  String? backImageUrlString,  String? posterImageUrlString,  String movieName,  String movieDetailString,  bool likeState,  DateTime? releaseDate,  double voteAverage,  double starRate,  List<String> genres,  List<int> genreIds,  List<ProductCompanyEntity> productionCompanies)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MovieDetailEntity() when $default != null:
-return $default(_that.movieID,_that.backImageUrlString,_that.posterImageUrlString,_that.movieName,_that.movieDetailString,_that.likeState,_that.releaseDate,_that.voteAverage,_that.starRate,_that.genres,_that.productionCompanies);case _:
+return $default(_that.movieID,_that.backImageUrlString,_that.posterImageUrlString,_that.movieName,_that.movieDetailString,_that.likeState,_that.releaseDate,_that.voteAverage,_that.starRate,_that.genres,_that.genreIds,_that.productionCompanies);case _:
   return orElse();
 
 }
@@ -178,10 +179,10 @@ return $default(_that.movieID,_that.backImageUrlString,_that.posterImageUrlStrin
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String movieID,  String? backImageUrlString,  String? posterImageUrlString,  String movieName,  String movieDetailString,  bool likeState,  DateTime? releaseDate,  double voteAverage,  double starRate,  List<String> genres,  List<ProductCompanyEntity> productionCompanies)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String movieID,  String? backImageUrlString,  String? posterImageUrlString,  String movieName,  String movieDetailString,  bool likeState,  DateTime? releaseDate,  double voteAverage,  double starRate,  List<String> genres,  List<int> genreIds,  List<ProductCompanyEntity> productionCompanies)  $default,) {final _that = this;
 switch (_that) {
 case _MovieDetailEntity():
-return $default(_that.movieID,_that.backImageUrlString,_that.posterImageUrlString,_that.movieName,_that.movieDetailString,_that.likeState,_that.releaseDate,_that.voteAverage,_that.starRate,_that.genres,_that.productionCompanies);}
+return $default(_that.movieID,_that.backImageUrlString,_that.posterImageUrlString,_that.movieName,_that.movieDetailString,_that.likeState,_that.releaseDate,_that.voteAverage,_that.starRate,_that.genres,_that.genreIds,_that.productionCompanies);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -195,10 +196,10 @@ return $default(_that.movieID,_that.backImageUrlString,_that.posterImageUrlStrin
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String movieID,  String? backImageUrlString,  String? posterImageUrlString,  String movieName,  String movieDetailString,  bool likeState,  DateTime? releaseDate,  double voteAverage,  double starRate,  List<String> genres,  List<ProductCompanyEntity> productionCompanies)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String movieID,  String? backImageUrlString,  String? posterImageUrlString,  String movieName,  String movieDetailString,  bool likeState,  DateTime? releaseDate,  double voteAverage,  double starRate,  List<String> genres,  List<int> genreIds,  List<ProductCompanyEntity> productionCompanies)?  $default,) {final _that = this;
 switch (_that) {
 case _MovieDetailEntity() when $default != null:
-return $default(_that.movieID,_that.backImageUrlString,_that.posterImageUrlString,_that.movieName,_that.movieDetailString,_that.likeState,_that.releaseDate,_that.voteAverage,_that.starRate,_that.genres,_that.productionCompanies);case _:
+return $default(_that.movieID,_that.backImageUrlString,_that.posterImageUrlString,_that.movieName,_that.movieDetailString,_that.likeState,_that.releaseDate,_that.voteAverage,_that.starRate,_that.genres,_that.genreIds,_that.productionCompanies);case _:
   return null;
 
 }
@@ -210,7 +211,7 @@ return $default(_that.movieID,_that.backImageUrlString,_that.posterImageUrlStrin
 
 
 class _MovieDetailEntity implements MovieDetailEntity {
-   _MovieDetailEntity({required this.movieID, required this.backImageUrlString, required this.posterImageUrlString, required this.movieName, required this.movieDetailString, required this.likeState, required this.releaseDate, required this.voteAverage, required this.starRate, required final  List<String> genres, required final  List<ProductCompanyEntity> productionCompanies}): _genres = genres,_productionCompanies = productionCompanies;
+   _MovieDetailEntity({required this.movieID, required this.backImageUrlString, required this.posterImageUrlString, required this.movieName, required this.movieDetailString, required this.likeState, required this.releaseDate, required this.voteAverage, required this.starRate, required final  List<String> genres, required final  List<int> genreIds, required final  List<ProductCompanyEntity> productionCompanies}): _genres = genres,_genreIds = genreIds,_productionCompanies = productionCompanies;
   
 
 @override final  String movieID;
@@ -227,6 +228,13 @@ class _MovieDetailEntity implements MovieDetailEntity {
   if (_genres is EqualUnmodifiableListView) return _genres;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_genres);
+}
+
+ final  List<int> _genreIds;
+@override List<int> get genreIds {
+  if (_genreIds is EqualUnmodifiableListView) return _genreIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_genreIds);
 }
 
  final  List<ProductCompanyEntity> _productionCompanies;
@@ -247,16 +255,16 @@ _$MovieDetailEntityCopyWith<_MovieDetailEntity> get copyWith => __$MovieDetailEn
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MovieDetailEntity&&(identical(other.movieID, movieID) || other.movieID == movieID)&&(identical(other.backImageUrlString, backImageUrlString) || other.backImageUrlString == backImageUrlString)&&(identical(other.posterImageUrlString, posterImageUrlString) || other.posterImageUrlString == posterImageUrlString)&&(identical(other.movieName, movieName) || other.movieName == movieName)&&(identical(other.movieDetailString, movieDetailString) || other.movieDetailString == movieDetailString)&&(identical(other.likeState, likeState) || other.likeState == likeState)&&(identical(other.releaseDate, releaseDate) || other.releaseDate == releaseDate)&&(identical(other.voteAverage, voteAverage) || other.voteAverage == voteAverage)&&(identical(other.starRate, starRate) || other.starRate == starRate)&&const DeepCollectionEquality().equals(other._genres, _genres)&&const DeepCollectionEquality().equals(other._productionCompanies, _productionCompanies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MovieDetailEntity&&(identical(other.movieID, movieID) || other.movieID == movieID)&&(identical(other.backImageUrlString, backImageUrlString) || other.backImageUrlString == backImageUrlString)&&(identical(other.posterImageUrlString, posterImageUrlString) || other.posterImageUrlString == posterImageUrlString)&&(identical(other.movieName, movieName) || other.movieName == movieName)&&(identical(other.movieDetailString, movieDetailString) || other.movieDetailString == movieDetailString)&&(identical(other.likeState, likeState) || other.likeState == likeState)&&(identical(other.releaseDate, releaseDate) || other.releaseDate == releaseDate)&&(identical(other.voteAverage, voteAverage) || other.voteAverage == voteAverage)&&(identical(other.starRate, starRate) || other.starRate == starRate)&&const DeepCollectionEquality().equals(other._genres, _genres)&&const DeepCollectionEquality().equals(other._genreIds, _genreIds)&&const DeepCollectionEquality().equals(other._productionCompanies, _productionCompanies));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,movieID,backImageUrlString,posterImageUrlString,movieName,movieDetailString,likeState,releaseDate,voteAverage,starRate,const DeepCollectionEquality().hash(_genres),const DeepCollectionEquality().hash(_productionCompanies));
+int get hashCode => Object.hash(runtimeType,movieID,backImageUrlString,posterImageUrlString,movieName,movieDetailString,likeState,releaseDate,voteAverage,starRate,const DeepCollectionEquality().hash(_genres),const DeepCollectionEquality().hash(_genreIds),const DeepCollectionEquality().hash(_productionCompanies));
 
 @override
 String toString() {
-  return 'MovieDetailEntity(movieID: $movieID, backImageUrlString: $backImageUrlString, posterImageUrlString: $posterImageUrlString, movieName: $movieName, movieDetailString: $movieDetailString, likeState: $likeState, releaseDate: $releaseDate, voteAverage: $voteAverage, starRate: $starRate, genres: $genres, productionCompanies: $productionCompanies)';
+  return 'MovieDetailEntity(movieID: $movieID, backImageUrlString: $backImageUrlString, posterImageUrlString: $posterImageUrlString, movieName: $movieName, movieDetailString: $movieDetailString, likeState: $likeState, releaseDate: $releaseDate, voteAverage: $voteAverage, starRate: $starRate, genres: $genres, genreIds: $genreIds, productionCompanies: $productionCompanies)';
 }
 
 
@@ -267,7 +275,7 @@ abstract mixin class _$MovieDetailEntityCopyWith<$Res> implements $MovieDetailEn
   factory _$MovieDetailEntityCopyWith(_MovieDetailEntity value, $Res Function(_MovieDetailEntity) _then) = __$MovieDetailEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String movieID, String? backImageUrlString, String? posterImageUrlString, String movieName, String movieDetailString, bool likeState, DateTime? releaseDate, double voteAverage, double starRate, List<String> genres, List<ProductCompanyEntity> productionCompanies
+ String movieID, String? backImageUrlString, String? posterImageUrlString, String movieName, String movieDetailString, bool likeState, DateTime? releaseDate, double voteAverage, double starRate, List<String> genres, List<int> genreIds, List<ProductCompanyEntity> productionCompanies
 });
 
 
@@ -284,7 +292,7 @@ class __$MovieDetailEntityCopyWithImpl<$Res>
 
 /// Create a copy of MovieDetailEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? movieID = null,Object? backImageUrlString = freezed,Object? posterImageUrlString = freezed,Object? movieName = null,Object? movieDetailString = null,Object? likeState = null,Object? releaseDate = freezed,Object? voteAverage = null,Object? starRate = null,Object? genres = null,Object? productionCompanies = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? movieID = null,Object? backImageUrlString = freezed,Object? posterImageUrlString = freezed,Object? movieName = null,Object? movieDetailString = null,Object? likeState = null,Object? releaseDate = freezed,Object? voteAverage = null,Object? starRate = null,Object? genres = null,Object? genreIds = null,Object? productionCompanies = null,}) {
   return _then(_MovieDetailEntity(
 movieID: null == movieID ? _self.movieID : movieID // ignore: cast_nullable_to_non_nullable
 as String,backImageUrlString: freezed == backImageUrlString ? _self.backImageUrlString : backImageUrlString // ignore: cast_nullable_to_non_nullable
@@ -296,7 +304,8 @@ as bool,releaseDate: freezed == releaseDate ? _self.releaseDate : releaseDate //
 as DateTime?,voteAverage: null == voteAverage ? _self.voteAverage : voteAverage // ignore: cast_nullable_to_non_nullable
 as double,starRate: null == starRate ? _self.starRate : starRate // ignore: cast_nullable_to_non_nullable
 as double,genres: null == genres ? _self._genres : genres // ignore: cast_nullable_to_non_nullable
-as List<String>,productionCompanies: null == productionCompanies ? _self._productionCompanies : productionCompanies // ignore: cast_nullable_to_non_nullable
+as List<String>,genreIds: null == genreIds ? _self._genreIds : genreIds // ignore: cast_nullable_to_non_nullable
+as List<int>,productionCompanies: null == productionCompanies ? _self._productionCompanies : productionCompanies // ignore: cast_nullable_to_non_nullable
 as List<ProductCompanyEntity>,
   ));
 }

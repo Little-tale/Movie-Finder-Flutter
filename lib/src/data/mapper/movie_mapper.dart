@@ -68,6 +68,7 @@ final class MovieMapper {
       voteAverage: voteAverage,
       starRate: starRate,
       genres: dto.genres.map((item) => item.name).toList(),
+      genreIds: dto.genres.map((item) => item.id).toList(),
       productionCompanies: dto.productionCompanies.map((item) {
         return ProductCompanyEntity(
           id: item.id,
