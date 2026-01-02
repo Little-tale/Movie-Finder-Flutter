@@ -50,7 +50,7 @@ final class MovieDetailVmProvider
   }
 }
 
-String _$movieDetailVmHash() => r'78224b1971de21d33f93e4fb5e049a7ea3b88d64';
+String _$movieDetailVmHash() => r'14fe4b3369a7abcace796a014879cbd21f9f0354';
 
 final class MovieDetailVmFamily extends $Family
     with

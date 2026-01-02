@@ -6,6 +6,7 @@ part 'movie_detail_entity.freezed.dart';
 @freezed
 sealed class MovieDetailEntity with _$MovieDetailEntity {
   factory MovieDetailEntity({
+    required String movieID,
     required String? backImageUrlString,
     required String? posterImageUrlString,
     required String movieName,

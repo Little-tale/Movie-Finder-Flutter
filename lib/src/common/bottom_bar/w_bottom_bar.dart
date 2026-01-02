@@ -10,7 +10,8 @@ import 'package:velocity_x/velocity_x.dart';
 
 enum TabItem {
   home(0),
-  search(1);
+  search(1),
+  likes(2);
 
   final int idx;
   const TabItem(this.idx);
@@ -22,15 +23,21 @@ enum TabItem {
         return "Home";
       case TabItem.search:
         return "Search";
+      case TabItem.likes:
+        return "Likes";
     }
   }
 
-  IconData get icon {
+  IconData icon(bool selected) {
     switch (this) {
       case TabItem.home:
-        return Icons.home;
+        return selected ? Icons.home_rounded : Icons.home_outlined;
       case TabItem.search:
-        return Icons.search;
+        return selected ? Icons.search_rounded : Icons.search_outlined;
+      case TabItem.likes:
+        return selected
+            ? Icons.favorite_rounded
+            : Icons.favorite_outline_rounded;
     }
   }
 }
@@ -89,7 +96,7 @@ class AppBottomBar extends ConsumerWidget {
                 .map(
                   (item) => BottomNavButton(
                     title: item.title,
-                    icon: item.icon,
+                    icon: item.icon(currentIndex == item.idx),
                     index: item.idx,
                     currentIndex: currentIndex,
                     onTab: (index) {

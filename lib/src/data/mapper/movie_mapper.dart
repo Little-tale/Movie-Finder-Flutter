@@ -58,6 +58,7 @@ final class MovieMapper {
     }
 
     return MovieDetailEntity(
+      movieID: dto.id.toString(),
       backImageUrlString: backDropUrl,
       posterImageUrlString: postUrl,
       movieName: dto.title ?? dto.originalTitle ?? "",

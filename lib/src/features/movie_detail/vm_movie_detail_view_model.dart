@@ -1,4 +1,6 @@
 import 'package:movie_finder/src/common/utils/utils.dart';
+import 'package:movie_finder/src/data/DB/DAO/favorite_db.dart';
+import 'package:movie_finder/src/data/DB/DAO/favorite_provider.dart';
 import 'package:movie_finder/src/features/movie_detail/vm_state/movie_detail_state.dart';
 import 'package:movie_finder/src/network/core/dio_provider.dart';
 import 'package:movie_finder/src/network/core/repository/movie_repository.dart';
@@ -28,8 +30,17 @@ class MovieDetailVm extends _$MovieDetailVm {
       Failure(error: final e) => throw e,
     };
 
+    final favs = await ref.watch(favoriteDbProvider.future);
+
+    final isLikes = await _requestLikeState(movieId: movieId, favs: favs);
     _requestVideos(movieId: movieId, repo: repo);
-    return MovieDetailState(detail: detail, credits: credit, videos: []);
+
+    return MovieDetailState(
+      detail: detail,
+      credits: credit,
+      videos: [],
+      isFavorite: isLikes,
+    );
   }
 
   Future<void> refresh(int movieId) async {
@@ -51,8 +62,31 @@ class MovieDetailVm extends _$MovieDetailVm {
     });
   }
 
+  Future<bool> _requestLikeState({
+    required int movieId,
+    required FavoriteDb favs,
+  }) async {
+    final result = await favs.getById(movieId.toString());
+    final isFavorite = (result != null);
+
+    return isFavorite;
+  }
+
   changeVideoLoad(bool trigger) {
     if (!ref.mounted) return;
     state = AsyncData(state.value!.copyWith(videoLoad: trigger));
+  }
+
+  // MARK: 사용자 좋아요 반영
+  void likeButtonTapped() async {
+    state = AsyncValue.data(
+      state.value!.copyWith(isFavorite: !state.value!.isFavorite),
+    );
+
+    final favs = await ref.watch(favoriteDbProvider.future);
+
+    final detail = state.value!.detail;
+
+    favs.toggle(movieId: detail.movieID, title: detail.movieName);
   }
 }

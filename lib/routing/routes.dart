@@ -9,6 +9,7 @@ sealed class Routes {
   // static const topRated = '/${RouteNames.topRated}';
   static const detail = '/${RouteNames.detail}/:id';
   static const search = '/${RouteNames.search}';
+  static const likes = '/${RouteNames.likes}';
 }
 
 sealed class RouteNames {
@@ -17,4 +18,5 @@ sealed class RouteNames {
   // static const topRated = 'topRated';
   static const detail = 'detail';
   static const search = 'search';
+  static const likes = 'likes';
 }

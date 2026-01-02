@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:movie_finder/routing/app_bottom_shell.dart';
 import 'package:movie_finder/routing/routes.dart';
 import 'package:movie_finder/src/features/movie_detail/s_movie_detail.dart';
+import 'package:movie_finder/src/features/movie_likes/s_movie_likes_Screen.dart';
 import 'package:movie_finder/src/features/movie_list/s_movie_list.dart';
 import 'package:movie_finder/src/features/movie_search/s_movie_search.dart';
 import 'package:movie_finder/src/features/splash/w_splash.dart';
@@ -55,6 +56,16 @@ GoRouter createRouter() {
                 name: RouteNames.search,
                 path: Routes.search,
                 builder: (context, state) => const MovieSearchScreen(),
+              ),
+            ],
+          ),
+
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: RouteNames.likes,
+                path: Routes.likes,
+                builder: (context, state) => const MovieLikesScreen(),
               ),
             ],
           ),

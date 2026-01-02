@@ -31,8 +31,8 @@ class MovieDetailScreen extends ConsumerWidget {
         ref.read(timerProviderProvider.notifier).delayStart(3.seconds);
       }
     });
-
-    final state = ref.watch(movieDetailVmProvider(movieID));
+    final provider = movieDetailVmProvider(movieID);
+    final state = ref.watch(provider);
 
     final headerHeight = context.screenSize.width * 9 / 16;
     final headerWithSafe = context.safeAreaTop + headerHeight;
@@ -112,8 +112,11 @@ class MovieDetailScreen extends ConsumerWidget {
             duration: 1.seconds,
             child: _headerOverlayText(data.detail),
           ),
-
-          _headerBackButton(context),
+          HStack(crossAlignment: CrossAxisAlignment.start, [
+            _headerBackButton(context),
+            Spacer(),
+            _likeButton(ref, data, provider),
+          ]),
         ],
       ),
     );
@@ -157,27 +160,51 @@ class MovieDetailScreen extends ConsumerWidget {
     );
   }
 
+  /// 뒤로가기 버튼
   Widget _headerBackButton(BuildContext context) {
-    return Positioned(
-      left: 8,
-      top: 8,
-      child: SafeArea(
-        bottom: false,
-        child: ClipRRect(
-          borderRadius: BorderRadiusGeometry.circular(100),
-          child: Container(
-            // color: Colors.grey[800],
-            decoration: AppDecorations.glassStyle3,
-            child: IconButton(
-              visualDensity: VisualDensity.compact,
-              onPressed: () {
-                context.pop();
-              },
-              icon: Icon(Icons.arrow_back_ios_new, color: Colors.grey),
-            ),
+    return SafeArea(
+      bottom: false,
+      child: ClipRRect(
+        borderRadius: BorderRadiusGeometry.circular(100),
+        child: Container(
+          // color: Colors.grey[800],
+          decoration: AppDecorations.glassStyle3,
+          child: IconButton(
+            visualDensity: VisualDensity.compact,
+            onPressed: () {
+              context.pop();
+            },
+            icon: Icon(Icons.arrow_back_ios_new, color: Colors.grey),
           ),
         ),
-      ),
+      ).pOnly(left: 8),
+    );
+  }
+
+  /// 좋아요 버튼
+  Widget _likeButton(
+    WidgetRef ref,
+    MovieDetailState data,
+    MovieDetailVmProvider provider,
+  ) {
+    final isFavorite = data.isFavorite;
+    return SafeArea(
+      bottom: false,
+      child: ClipRRect(
+        borderRadius: BorderRadiusGeometry.circular(100),
+        child: Container(
+          decoration: AppDecorations.glassStyle3,
+          child: IconButton(
+            visualDensity: VisualDensity.compact,
+            onPressed: () {
+              ref.read(provider.notifier).likeButtonTapped();
+            },
+            icon: isFavorite
+                ? Icon(Icons.favorite_rounded, color: Colors.redAccent)
+                : Icon(Icons.favorite_border_rounded, color: Colors.grey),
+          ),
+        ),
+      ).pOnly(right: 8),
     );
   }
 
