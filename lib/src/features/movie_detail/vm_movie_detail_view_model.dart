@@ -92,6 +92,7 @@ class MovieDetailVm extends _$MovieDetailVm {
       movieId: detail.movieID,
       title: detail.movieName,
       genreIds: detail.genreIds,
+      posterPath: detail.posterImageUrlString,
     );
     ref.read(favoritesChangedProvider.notifier).bump();
   }

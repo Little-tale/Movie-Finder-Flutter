@@ -23,4 +23,22 @@ class MovieLikeViewModel extends _$MovieLikeViewModel {
       currentIdx: 0,
     );
   }
+
+  void tappedGenreIdx(int idx) async {
+    final currentIdx = state.value?.currentIdx ?? 0;
+
+    if (state.value == null || currentIdx == idx) {
+      return;
+    }
+
+    final fvDB = await ref.watch(favoriteDbProvider.future);
+
+    if (idx == 0) {
+      final result = await fvDB.getAll();
+      state = AsyncData(state.value!.copyWith(movies: result, currentIdx: idx));
+    } else {
+      final result = await fvDB.getByGenreId(state.value!.allGenreIds[idx - 1]);
+      state = AsyncData(state.value!.copyWith(movies: result, currentIdx: idx));
+    }
+  }
 }

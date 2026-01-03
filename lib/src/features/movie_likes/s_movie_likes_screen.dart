@@ -1,8 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movie_finder/routing/routes.dart';
 import 'package:movie_finder/src/common/app/app_size.dart';
+import 'package:movie_finder/src/data/DB/favorite_movie.dart';
 import 'package:movie_finder/src/data/Entity/genre/tmdb_genre.dart';
 import 'package:movie_finder/src/features/movie_likes/vm/movie_like_view_model.dart';
+import 'package:movie_finder/src/network/TMDB/tmdb_image_path.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MovieLikesScreen extends ConsumerStatefulWidget {
@@ -14,43 +19,46 @@ class MovieLikesScreen extends ConsumerStatefulWidget {
 
 class _MovieLikesScreenState extends ConsumerState<MovieLikesScreen> {
   final ScrollController _scrollController = ScrollController();
-  final GlobalKey _genreKey = GlobalKey();
+  final GlobalKey _headerKey = GlobalKey();
 
-  // (옵션) 위/아래 두 개 genreList가 같은 가로 스크롤 위치 공유하게
-  final ScrollController _genreHController = ScrollController();
-
-  bool _showPinnedGenre = false;
+  bool _isHeaderPinned = false;
+  double? _headerHeight;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_handleScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateHeaderHeight();
+      _handleScroll();
+    });
   }
 
-  void _handleScroll() {
-    final ctx = _genreKey.currentContext;
+  void _updateHeaderHeight() {
+    final ctx = _headerKey.currentContext;
     if (ctx == null) return;
 
     final box = ctx.findRenderObject() as RenderBox?;
     if (box == null || !box.attached) return;
 
-    final topInset = MediaQuery.paddingOf(context).top;
+    _headerHeight = box.size.height;
+  }
 
-    // genreList(리스트 안에 있는)의 화면상 y좌표
-    final dy = box.localToGlobal(Offset.zero).dy;
+  void _handleScroll() {
+    if (_headerHeight == null) {
+      _updateHeaderHeight();
+    }
+    if (!_scrollController.hasClients || _headerHeight == null) return;
 
-    // dy가 상태바 아래(topInset)보다 위로 올라가면 pinned 보여주기
-    final next = dy <= topInset;
-
-    if (next != _showPinnedGenre) {
-      setState(() => _showPinnedGenre = next);
+    final next = _scrollController.offset >= _headerHeight!;
+    if (next != _isHeaderPinned) {
+      setState(() => _isHeaderPinned = next);
     }
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    _genreHController.dispose();
     super.dispose();
   }
 
@@ -63,87 +71,112 @@ class _MovieLikesScreenState extends ConsumerState<MovieLikesScreen> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // 배경 그라데이션(원래 쓰던 거 유지)
           IgnorePointer(
-            child: Container(
-              height: 200,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              curve: Curves.easeOut,
+              height: topInset * 3,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.deepPurple.withValues(alpha: 0.52),
-                    Colors.transparent,
-                  ],
+                  colors: _isHeaderPinned
+                      ? const [Colors.black, Colors.black]
+                      : [
+                          Colors.deepPurple.withValues(alpha: 0.52),
+                          Colors.transparent,
+                        ],
                 ),
               ),
             ),
           ),
-
-          vm.when(
-            data: (state) => Stack(
+          SafeArea(
+            bottom: false,
+            child: Stack(
               children: [
-                // 스크롤 본문
-                CustomScrollView(
-                  controller: _scrollController,
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          _topHeaderView(state.movies.length, topInset),
-                          16.heightBox,
+                vm.when(
+                  data: (state) {
+                    if (_headerHeight == null) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _updateHeaderHeight();
+                        _handleScroll();
+                      });
+                    }
 
-                          // “기준점”
-                          SizedBox(
-                            key: _genreKey,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: _genreList(
-                                state.allGenreIds,
-                                state.currentIdx,
-                                controller: _genreHController,
-                              ).hide(isVisible: !_showPinnedGenre),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // 아래 컨텐츠
-                    SliverToBoxAdapter(child: 800.heightBox),
-                  ],
-                ),
-
-                // pinned genre bar (SafeArea 아래에만 고정)
-                if (_showPinnedGenre)
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: Stack(
+                    return Stack(
                       children: [
-                        Container(
-                          color: Colors.black,
-                          width: double.infinity,
-                          height: topInset,
-                        ),
+                        // 스크롤 본문
+                        CustomScrollView(
+                          controller: _scrollController,
+                          slivers: [
+                            SliverToBoxAdapter(
+                              child: Column(
+                                key: _headerKey,
+                                children: [
+                                  _topHeaderView(state.movies.length, topInset),
+                                  16.heightBox,
+                                ],
+                              ),
+                            ),
 
-                        Container(
-                          color: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: _genreList(
-                            state.allGenreIds,
-                            state.currentIdx,
-                            controller: _genreHController,
-                          ),
-                        ).pOnly(top: topInset),
+                            SliverPersistentHeader(
+                              pinned: true,
+                              delegate: _GenreHeaderDelegate(
+                                height: 48,
+                                child: Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                  ),
+                                  color: Colors.black,
+                                  child: _genreList(
+                                    state.allGenreIds,
+                                    state.currentIdx,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            // 아래 컨텐츠
+                            SliverGrid(
+                              delegate: SliverChildBuilderDelegate((
+                                context,
+                                index,
+                              ) {
+                                final item = state.movies[index];
+                                return _movieItem(item).onTap(() {
+                                  context.pushNamed(
+                                    RouteNames.detail,
+                                    pathParameters: {'id': item.movieId},
+                                  );
+                                });
+                              }, childCount: state.movies.length),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 4,
+                                    crossAxisSpacing: 4,
+                                    childAspectRatio: 0.7,
+                                  ),
+                            ),
+
+                            SliverToBoxAdapter(
+                              child: context
+                                  .bottomBarWithSafeAreaHeight
+                                  .heightBox
+                                  .pOnly(bottom: 8),
+                            ),
+                          ],
+                        ),
                       ],
-                    ),
-                  ),
+                    );
+                  },
+                  error: (e, _) => 'ERROR - $e'.text.bold.size(24).make(),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                ),
               ],
             ),
-            error: (e, _) => 'ERROR - $e'.text.bold.size(24).make(),
-            loading: () => const Center(child: CircularProgressIndicator()),
           ),
         ],
       ),
@@ -201,15 +234,67 @@ class _MovieLikesScreenState extends ConsumerState<MovieLikesScreen> {
   }) {
     return ClipRRect(
       borderRadius: BorderRadiusGeometry.circular(999),
-      child: Container(
-        color: currentIdx == idx
-            ? Colors.purple[600]
-            : const Color.fromARGB(255, 35, 57, 89),
-        child: text.text.semiBold
-            .color(Colors.white)
-            .make()
-            .pSymmetric(h: 16, v: 8),
+      child:
+          Container(
+            color: currentIdx == idx
+                ? Colors.purple[600]
+                : const Color.fromARGB(255, 35, 57, 89),
+            child: text.text.semiBold
+                .color(Colors.white)
+                .make()
+                .pSymmetric(h: 16, v: 8),
+          ).onTap(() {
+            final vm = ref.read(movieLikeViewModelProvider.notifier);
+            vm.tappedGenreIdx(idx);
+          }),
+    );
+  }
+
+  Widget _movieItem(FavoriteMovie item) {
+    final posterPath = item.posterPath;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: AspectRatio(
+        aspectRatio: 9 / 16,
+        child: posterPath == null || posterPath.isEmpty
+            ? const ColoredBox(color: Colors.grey)
+            : CachedNetworkImage(
+                imageUrl: tmdbPosterPath(path: posterPath),
+                fit: BoxFit.cover,
+                placeholder: (_, __) => const ColoredBox(color: Colors.black26),
+                errorWidget: (_, __, ___) => const Center(
+                  child: Icon(Icons.broken_image, color: Colors.white54),
+                ),
+              ),
       ),
     );
+  }
+}
+
+class _GenreHeaderDelegate extends SliverPersistentHeaderDelegate {
+  _GenreHeaderDelegate({required this.height, required this.child});
+
+  final double height;
+  final Widget child;
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return child;
+  }
+
+  @override
+  bool shouldRebuild(covariant _GenreHeaderDelegate oldDelegate) {
+    return height != oldDelegate.height || child != oldDelegate.child;
   }
 }

@@ -108,4 +108,22 @@ class FavoriteDb {
       return true;
     }
   }
+
+  Future<List<FavoriteMovie>> getByGenreId(int genreId) async {
+    final rows = await db.rawQuery(
+      '''
+    SELECT f.movie_id, f.title, f.poster_path, f.liked_at,
+           COALESCE(GROUP_CONCAT(g2.genre_id, '|'), '') AS genre_ids
+    FROM favorites f
+    INNER JOIN favorite_genres g ON g.movie_id = f.movie_id
+    LEFT JOIN favorite_genres g2 ON g2.movie_id = f.movie_id
+    WHERE g.genre_id = ?
+    GROUP BY f.movie_id
+    ORDER BY f.liked_at DESC
+  ''',
+      [genreId],
+    );
+
+    return rows.map(FavoriteMovie.fromMap).toList();
+  }
 }
