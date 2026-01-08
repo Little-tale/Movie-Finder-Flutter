@@ -42,13 +42,46 @@ class MovieDetailScreen extends ConsumerWidget {
       body: Container(
         child: state.when(
           data: (data) {
+            final companies = data.detail.productionCompanies;
+            final credits = data.credits;
+
             return Stack(
               alignment: Alignment.topCenter,
               children: [
                 CustomScrollView(
                   slivers: [
                     SliverToBoxAdapter(child: headerWithSafe.heightBox),
-                    SliverToBoxAdapter(child: _scrollBody(ref, context, data)),
+                    // SliverToBoxAdapter(child: _scrollBody(ref, context, data)),
+
+                    // 제작사
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            spacing: 12,
+                            children: companies.map((item) {
+                              return _companiesSection(item);
+                            }).toList(),
+                          ),
+                        ),
+                      ).pOnly(top: 8, left: 8, right: 8),
+                    ),
+                    // 줄거리
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: _movieOverview(
+                          data.detail.movieDetailString,
+                        ).pOnly(top: 16, bottom: 12),
+                      ),
+                    ),
+                    // 출연진들 섹션
+                    _castBoxAdapter(credits),
+                    // 크루들 섹션
+                    _crewBoxAdapter(credits),
+
                     SliverToBoxAdapter(child: context.bottomSafeArea.heightBox),
                   ],
                 ),
@@ -74,6 +107,85 @@ class MovieDetailScreen extends ConsumerWidget {
             return Center(child: CircularProgressIndicator());
           },
         ),
+      ),
+    );
+  }
+
+  Widget _crewBoxAdapter(TmdbCreditsEntity credits) {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: '제작진들'.text.bold
+                .size(24)
+                .color(Colors.white)
+                .make()
+                .pOnly(bottom: 8),
+          ),
+
+          SizedBox(
+            height: 180,
+            child: ListView.separated(
+              itemCount: credits.crew.length,
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              itemBuilder: (context, index) {
+                final item = credits.crew[index];
+                return SizedBox(
+                  width: 120,
+                  child: _movieCrewMember(
+                    name: item.name,
+                    subTitle: item.job,
+                    profileUrl: item.profileUrl,
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return 8.widthBox;
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _castBoxAdapter(TmdbCreditsEntity credits) {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: '출연진들'.text.bold
+                .size(24)
+                .color(Colors.white)
+                .make()
+                .pOnly(bottom: 8),
+          ),
+          SizedBox(
+            height: 180,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              itemCount: credits.cast.length,
+              itemBuilder: (context, index) {
+                final item = credits.cast[index];
+                return SizedBox(
+                  width: 120,
+                  child: _movieCrewMember(
+                    name: item.name,
+                    subTitle: item.characterName,
+                    profileUrl: item.profileUrl,
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return 8.widthBox;
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -267,43 +379,6 @@ class MovieDetailScreen extends ConsumerWidget {
     );
   }
 
-  // MARK: - Body
-  Widget _scrollBody(
-    WidgetRef ref,
-    BuildContext context,
-    MovieDetailState data,
-  ) {
-    final companies = data.detail.productionCompanies;
-
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 제작사
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                spacing: 12,
-                children: companies.map((item) {
-                  return _companiesSection(item);
-                }).toList(),
-              ),
-            ),
-
-            // 줄거리
-            _movieOverview(data.detail.movieDetailString).pOnly(top: 16),
-
-            // 출연진
-            _movieCrews(data.credits).pOnly(top: 16),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _companiesSection(ProductCompanyEntity item) {
     if (item.logoPath == null) {
       return Container();
@@ -325,50 +400,6 @@ class MovieDetailScreen extends ConsumerWidget {
       children: [
         '줄거리'.text.color(Colors.white).bold.size(20).make(),
         overViewText.text.color(Colors.white70).normal.size(14).make(),
-      ],
-    );
-  }
-
-  Widget _movieCrews(TmdbCreditsEntity credits) {
-    return Column(
-      spacing: 8,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        '출연진들'.text.bold.size(24).color(Colors.white).make().pOnly(bottom: 8),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            spacing: 12,
-            children: credits.cast.map((i) {
-              return SizedBox(
-                width: 120,
-                child: _movieCrewMember(
-                  name: i.name,
-                  subTitle: i.characterName,
-                  profileUrl: i.profileUrl,
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-
-        '제작진들'.text.bold.size(24).color(Colors.white).make().pOnly(bottom: 8),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            spacing: 12,
-            children: credits.crew.map((i) {
-              return SizedBox(
-                width: 120,
-                child: _movieCrewMember(
-                  name: i.name,
-                  subTitle: i.job,
-                  profileUrl: i.profileUrl,
-                ),
-              );
-            }).toList(),
-          ),
-        ),
       ],
     );
   }
@@ -423,13 +454,15 @@ class MovieDetailScreen extends ConsumerWidget {
       width: double.infinity,
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(18),
-        child: YoutubePlayers(
-          ids: videoIds,
-          onFinished: () {
-            ref.read(provider.notifier).changeVideoLoad(false);
-            ref.read(timerProviderProvider.notifier).show();
-          },
-        ),
+        child:
+            // Placeholder(),
+            YoutubePlayers(
+              ids: videoIds,
+              onFinished: () {
+                ref.read(provider.notifier).changeVideoLoad(false);
+                ref.read(timerProviderProvider.notifier).show();
+              },
+            ),
       ),
     );
   }

@@ -27,7 +27,7 @@ final class NetworkImageWidget extends StatelessWidget {
         colorBlendMode: colorBlendMode,
         color: color,
         placeholder: (context, url) => Container(
-          color: Color.fromARGB(255, 224, 255, 232).withValues(alpha: 0.9),
+          color: Color.fromARGB(255, 69, 69, 69).withValues(alpha: 0.5),
           child: Center(child: CircularProgressIndicator()),
         ),
         errorWidget: (context, url, error) {
@@ -42,9 +42,14 @@ final class NetworkImageWidget extends StatelessWidget {
 
   Widget _empty() {
     return Container(
-      color: const Color.fromARGB(255, 224, 255, 232).withValues(alpha: 0.9),
+      color: const Color.fromARGB(255, 80, 80, 80).withValues(alpha: 0.5),
       child: Center(
-        child: 'No Image'.text.size(20).semiBold.make().fittedBox(),
+        child: 'No Image'.text
+            .size(20)
+            .color(Colors.white)
+            .semiBold
+            .make()
+            .fittedBox(),
       ),
     );
   }
