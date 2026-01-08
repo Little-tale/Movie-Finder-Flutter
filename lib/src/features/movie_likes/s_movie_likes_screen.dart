@@ -122,7 +122,7 @@ class _MovieLikesScreenState extends ConsumerState<MovieLikesScreen> {
                             SliverPersistentHeader(
                               pinned: true,
                               delegate: _GenreHeaderDelegate(
-                                height: 48,
+                                height: 49,
                                 child: Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.symmetric(
@@ -201,7 +201,7 @@ class _MovieLikesScreenState extends ConsumerState<MovieLikesScreen> {
           'Movies & Series'.text.size(14).color(Colors.white).make(),
         ]),
       ]),
-    ).pOnly(top: 8 + topInset);
+    ).pOnly(top: 16);
   }
 
   Widget _genreList(
