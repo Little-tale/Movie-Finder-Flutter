@@ -66,7 +66,12 @@ class _UpcomingCarouselWidgetState
       spacing: 8,
 
       children: [
-        '상영 예정작'.text.bold.size(24).make(),
+        '상영 예정작'.text
+            .color(Colors.white)
+            .bold
+            .size(24)
+            .make()
+            .pOnly(bottom: 10),
         SizedBox(
           height: height,
           child: PageView.builder(

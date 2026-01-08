@@ -44,18 +44,13 @@ class NamedPosterWidget extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: height * 0.25,
-                color: const Color.fromARGB(
-                  255,
-                  255,
-                  255,
-                  255,
-                ).withValues(alpha: 1),
+                color: Colors.black54,
                 alignment: Alignment.center,
                 child: title.text
                     .size(24)
-                    .color(Colors.lightGreen[900])
+                    .color(Colors.white)
                     .align(TextAlign.center)
-                    .bold
+                    .medium
                     .maxLines(2)
                     .ellipsis
                     .make()

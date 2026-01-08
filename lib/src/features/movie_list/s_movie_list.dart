@@ -5,6 +5,7 @@ import 'package:movie_finder/src/features/movie_list/sub_widgets/w_now_playing_m
 import 'package:movie_finder/src/features/movie_list/sub_widgets/w_popular_movie.dart';
 import 'package:movie_finder/src/features/movie_list/sub_widgets/w_top_rated_section.dart';
 import 'package:movie_finder/src/features/movie_list/sub_widgets/w_upcoming_carousel_movie.dart';
+import 'package:movie_finder/utils/Images.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MovieListScreen extends ConsumerStatefulWidget {
@@ -21,11 +22,17 @@ class _MovieListScreenState extends ConsumerState<MovieListScreen> {
     // final state = ref.watch(movieListVmProvider);
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            backgroundColor: Colors.black87,
             pinned: true,
-            title: '영찾'.text.size(24).bold.make().pOnly(left: 8),
+            title: SizedBox(
+              width: 50,
+              height: 50,
+              child: ImageExt.assetType(Images.logo),
+            ),
             centerTitle: false,
           ),
           SliverToBoxAdapter(child: UpcomingCarouselWidget()),

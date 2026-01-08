@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movie_finder/src/common/ui/w_network_image_.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class TopRatedPosterWidget extends StatelessWidget {
   const TopRatedPosterWidget({
@@ -53,13 +52,20 @@ final class _RankNumber extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        '$rank'.text
-            .size(height)
-            .bold
-            .lineHeight(1)
-            .letterSpacing(-35)
-            .color(Colors.lightGreen[900])
-            .make(),
+        Text(
+          '$rank',
+          style: TextStyle(
+            fontSize: height,
+            fontWeight: FontWeight.bold,
+            letterSpacing: -35,
+            foreground: Paint()
+              ..shader = LinearGradient(
+                colors: [Colors.grey, Colors.black],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ).createShader(Rect.fromLTWH(0, 0, 0, 200)),
+          ),
+        ),
       ],
     );
   }

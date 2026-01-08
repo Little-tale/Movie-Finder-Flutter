@@ -47,6 +47,7 @@ class _PopularMovieWidgetState extends ConsumerState<PopularMovieWidget> {
               '현재 인기 급상승🍿'.text
                   .size(24)
                   .bold
+                  .color(Colors.white)
                   .make()
                   .pOnly(left: 16, bottom: 8, top: 16),
               SizedBox(
