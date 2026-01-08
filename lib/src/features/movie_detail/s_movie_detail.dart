@@ -208,7 +208,7 @@ class MovieDetailScreen extends ConsumerWidget {
             children: [
               Container(color: Colors.black, height: context.safeAreaTop),
 
-              !data.videoLoad
+              (!data.videoLoad || data.videos.isEmpty)
                   ? _headerBackground(context, data.detail, headerHeight)
                   : _movieVideos(ref, provider, data.videos, headerHeight),
             ],

@@ -21,8 +21,10 @@ class _YoutubePlayersState extends State<YoutubePlayers> {
       widget.ids.map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
 
   YoutubePlayerController _createController(String videoId) {
+    final id = videoId.replaceAll('-', '_');
+
     return YoutubePlayerController.fromVideoId(
-      videoId: videoId,
+      videoId: id,
       autoPlay: true,
       params: const YoutubePlayerParams(
         mute: false,
@@ -32,7 +34,6 @@ class _YoutubePlayersState extends State<YoutubePlayers> {
         pointerEvents: PointerEvents.none,
         captionLanguage: 'ko',
         interfaceLanguage: 'ko',
-
         origin: 'https://www.youtube-nocookie.com',
       ),
     );
@@ -42,16 +43,21 @@ class _YoutubePlayersState extends State<YoutubePlayers> {
     _sub?.cancel();
     final c = _controller;
     if (c == null) return;
-
     _sub = c.stream.listen((value) {
       final err = value.error;
 
       final blocked =
           err == YoutubeError.notEmbeddable ||
           err == YoutubeError.sameAsNotEmbeddable;
+      debugPrint("ERROR");
+      debugPrint(err.toString());
 
       if (blocked || value.playerState == PlayerState.ended) {
         _goNextOrFinish();
+      } else if (err != YoutubeError.none) {
+        final id = _ids[currentIdx].replaceAll("-", "_");
+        c.cueVideoById(videoId: id);
+        c.playVideo();
       }
     });
   }
