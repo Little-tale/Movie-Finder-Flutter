@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,7 @@ import 'package:movie_finder/src/app/routing/routes.dart';
 import 'package:movie_finder/src/core/app/app_size.dart';
 import 'package:movie_finder/src/data/db/favorite_movie.dart';
 import 'package:movie_finder/src/domain/entities/genre/tmdb_genre.dart';
+import 'package:movie_finder/src/presentation/common/ui/button/w_like_button.dart';
 import 'package:movie_finder/src/presentation/features/movie_likes/vm/movie_like_view_model.dart';
 import 'package:movie_finder/src/data/network/TMDB/tmdb_image_path.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -148,7 +150,7 @@ class _MovieLikesScreenState extends ConsumerState<MovieLikesScreen> {
                                   index,
                                 ) {
                                   final item = state.movies[index];
-                                  return _movieItem(item).onTap(() {
+                                  return _movieItem(item, index).onTap(() {
                                     context.pushNamed(
                                       RouteNames.detail,
                                       pathParameters: {'id': item.movieId},
@@ -256,25 +258,95 @@ class _MovieLikesScreenState extends ConsumerState<MovieLikesScreen> {
     );
   }
 
-  Widget _movieItem(FavoriteMovie item) {
+  Widget _movieItem(FavoriteMovie item, int idx) {
     final posterPath = item.posterPath;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: AspectRatio(
-        aspectRatio: 9 / 16,
-        child: posterPath == null || posterPath.isEmpty
-            ? const ColoredBox(color: Colors.grey)
-            : CachedNetworkImage(
-                imageUrl: tmdbPosterPath(path: posterPath),
-                fit: BoxFit.cover,
-                placeholder: (_, __) => const ColoredBox(color: Colors.black26),
-                errorWidget: (_, __, ___) => const Center(
-                  child: Icon(Icons.broken_image, color: Colors.white54),
+      child: Stack(
+        alignment: Alignment.topRight,
+        fit: StackFit.expand,
+        children: [
+          posterPath == null || posterPath.isEmpty
+              ? const ColoredBox(color: Colors.grey)
+              : CachedNetworkImage(
+                  imageUrl: tmdbPosterPath(path: posterPath),
+                  fit: BoxFit.cover,
+                  placeholder: (_, __) =>
+                      const ColoredBox(color: Colors.black26),
+                  errorWidget: (_, __, ___) => const Center(
+                    child: Icon(Icons.broken_image, color: Colors.white54),
+                  ),
                 ),
+
+          Positioned(
+            top: 6,
+            right: 6,
+            child: SizedBox(
+              width: 30,
+              height: 30,
+              child: LikeButtonWidget(
+                size: 16,
+                isLiked: true,
+                onPressed: () async {
+                  final result = await _confirmRemoveFavorite(context);
+                  if (result) {
+                    ref
+                        .read(movieLikeViewModelProvider.notifier)
+                        .tappedLikeMovie(idx);
+                  }
+                },
               ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<bool> _confirmRemoveFavorite(BuildContext context) async {
+    final isCupertino =
+        Theme.of(context).platform == TargetPlatform.iOS ||
+        Theme.of(context).platform == TargetPlatform.macOS;
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        if (isCupertino) {
+          return CupertinoAlertDialog(
+            title: const Text('좋아요 취소'),
+            content: const Text('이 영화를 좋아요 목록에서 삭제할까요?'),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.of(dialogContext).pop(false),
+                child: const Text('취소'),
+              ),
+              CupertinoDialogAction(
+                isDestructiveAction: true,
+                onPressed: () => Navigator.of(dialogContext).pop(true),
+                child: const Text('삭제'),
+              ),
+            ],
+          );
+        }
+
+        return AlertDialog(
+          title: const Text('좋아요 취소'),
+          content: const Text('이 영화를 좋아요 목록에서 삭제할까요?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('취소'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: const Text('삭제'),
+            ),
+          ],
+        );
+      },
+    );
+
+    return result ?? false;
   }
 }
 

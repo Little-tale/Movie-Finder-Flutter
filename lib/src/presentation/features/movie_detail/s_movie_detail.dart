@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_finder/src/core/app/app_size.dart';
 import 'package:movie_finder/src/core/providers/timer_provider.dart';
+import 'package:movie_finder/src/presentation/common/ui/button/w_like_button.dart';
 import 'package:movie_finder/src/presentation/common/ui/ext/ex_app_decoration.dart';
 import 'package:movie_finder/src/presentation/common/ui/w_network_image_.dart';
 import 'package:movie_finder/src/presentation/common/ui/w_star_rating.dart';
@@ -305,20 +306,12 @@ class MovieDetailScreen extends ConsumerWidget {
     final isFavorite = data.isFavorite;
     return SafeArea(
       bottom: false,
-      child: ClipRRect(
-        borderRadius: BorderRadiusGeometry.circular(100),
-        child: Container(
-          decoration: AppDecorations.glassStyle3,
-          child: IconButton(
-            visualDensity: VisualDensity.compact,
-            onPressed: () {
-              ref.read(provider.notifier).likeButtonTapped();
-            },
-            icon: isFavorite
-                ? Icon(Icons.favorite_rounded, color: Colors.redAccent)
-                : Icon(Icons.favorite_border_rounded, color: Colors.grey),
-          ),
-        ),
+      child: LikeButtonWidget(
+        size: 24,
+        isLiked: isFavorite,
+        onPressed: () {
+          ref.read(provider.notifier).likeButtonTapped();
+        },
       ).pOnly(right: 8),
     );
   }

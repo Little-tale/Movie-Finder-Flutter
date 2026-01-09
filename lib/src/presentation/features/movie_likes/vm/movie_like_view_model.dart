@@ -41,4 +41,15 @@ class MovieLikeViewModel extends _$MovieLikeViewModel {
       state = AsyncData(state.value!.copyWith(movies: result, currentIdx: idx));
     }
   }
+
+  void tappedLikeMovie(int at) async {
+    final item = state.value!.movies[at];
+    final db = await ref.read(favoriteDbProvider.future);
+    db.toggle(
+      movieId: item.movieId,
+      title: item.title,
+      genreIds: item.genreIds,
+    );
+    ref.read(favoritesChangedProvider.notifier).bump();
+  }
 }
