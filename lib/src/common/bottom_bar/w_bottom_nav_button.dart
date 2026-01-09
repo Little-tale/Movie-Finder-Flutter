@@ -36,12 +36,17 @@ class BottomNavButton extends StatelessWidget {
             Icon(
               size: iconSize(context),
               icon,
-              color: selected ? Colors.black : Colors.black54,
+              color: selected
+                  ? const Color.fromARGB(255, 147, 8, 207)
+                  : const Color.fromARGB(136, 220, 220, 220),
             ),
             if (!selected)
               Text(
                 title,
-                style: TextStyle(fontSize: 10, color: Colors.black54),
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromARGB(136, 220, 220, 220),
+                ),
               ).py4(),
           ]),
         ),

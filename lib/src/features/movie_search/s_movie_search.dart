@@ -33,7 +33,9 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black.withValues(alpha: 0.87),
         title: SearchTopBar(
           onEditingComplete: () {
             final notifier = ref.read(movieSearchViewModelProvider.notifier);
@@ -80,6 +82,7 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
           child: '추천하는 시리즈 & 영화'.text
               .size(20)
               .bold
+              .color(Colors.white)
               .make()
               .pOnly(left: 8, right: 8, top: 16, bottom: 8),
         ),
@@ -128,6 +131,7 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
           SliverToBoxAdapter(
             child: '영화 & 시리즈'.text.bold
                 .size(20)
+                .color(Colors.white)
                 .make()
                 .pSymmetric(v: 12, h: 16),
           ),
@@ -176,6 +180,7 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
         '사람들이 시청중인 컨텐츠'.text
             .size(20)
             .bold
+            .color(Colors.white)
             .make()
             .pOnly(left: 8, right: 8, top: 8, bottom: 8),
         SizedBox(
@@ -265,13 +270,19 @@ class _MovieSearchScreenState extends ConsumerState<MovieSearchScreen> {
 
               // movie Name
               SizedBox(
-                width: VxContextExtensions(context).screenWidth / 2 - 20,
-                child: item.title.text.softWrap(true).size(16).semiBold.make(),
+                width: VxContextExtensions(context).screenWidth / 2 - 28,
+                child: item.title.text
+                    .color(Colors.white)
+                    .softWrap(true)
+                    .size(16)
+                    .semiBold
+                    .make(),
               ),
             ]),
           ),
         )
         .pOnly(top: index == 0 ? 6 : 0)
-        .pOnly(bottom: (datas.length - 1) == index ? 6 : 0);
+        .pOnly(bottom: (datas.length - 1) == index ? 6 : 0)
+        .pSymmetric(h: 4);
   }
 }

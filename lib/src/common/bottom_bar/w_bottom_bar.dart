@@ -83,12 +83,13 @@ class AppBottomBar extends ConsumerWidget {
 
   Widget barItems(BuildContext context, int currentIndex, WidgetRef ref) {
     return ClipRRect(
+      borderRadius: BorderRadius.circular(cornerRadius),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: Container(
           height: context.bottomBarHeight,
           decoration: BoxDecoration(
-            color: Color(0xFFD1F0E4).withValues(alpha: 0.55),
+            color: Color.fromARGB(255, 27, 9, 39).withValues(alpha: 0.55),
             borderRadius: BorderRadius.circular(cornerRadius),
           ),
           child: Row(

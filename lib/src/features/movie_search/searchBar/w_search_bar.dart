@@ -26,13 +26,23 @@ class SearchBarWidget extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Icon(Icons.search, size: 24),
+          Icon(
+            Icons.search,
+            size: 24,
+            color: const Color.fromARGB(
+              255,
+              255,
+              255,
+              255,
+            ).withValues(alpha: 0.3),
+          ),
           4.widthBox,
           Expanded(
             child: TextFormField(
               focusNode: focusNode,
               keyboardType: TextInputType.text,
               initialValue: searchBarState.text,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hint: '시리즈, 영화를 검색해 보세요...'.text
                     .size(16)

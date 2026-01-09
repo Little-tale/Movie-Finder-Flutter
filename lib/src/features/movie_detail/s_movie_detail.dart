@@ -69,12 +69,15 @@ class MovieDetailScreen extends ConsumerWidget {
                       ).pOnly(top: 8, left: 8, right: 8),
                     ),
                     // 줄거리
-                    SliverToBoxAdapter(
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: _movieOverview(
-                          data.detail.movieDetailString,
-                        ).pOnly(top: 16, bottom: 12),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      sliver: SliverToBoxAdapter(
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: _movieOverview(
+                            data.detail.movieDetailString,
+                          ).pOnly(top: 16, bottom: 12),
+                        ),
                       ),
                     ),
                     // 출연진들 섹션
@@ -121,7 +124,7 @@ class MovieDetailScreen extends ConsumerWidget {
                 .size(24)
                 .color(Colors.white)
                 .make()
-                .pOnly(bottom: 8),
+                .pOnly(bottom: 8, left: 8),
           ),
 
           SizedBox(
@@ -161,7 +164,7 @@ class MovieDetailScreen extends ConsumerWidget {
                 .size(24)
                 .color(Colors.white)
                 .make()
-                .pOnly(bottom: 8),
+                .pOnly(bottom: 8, left: 8),
           ),
           SizedBox(
             height: 180,

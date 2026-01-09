@@ -138,26 +138,31 @@ class _MovieLikesScreenState extends ConsumerState<MovieLikesScreen> {
                             ),
 
                             // 아래 컨텐츠
-                            SliverGrid(
-                              delegate: SliverChildBuilderDelegate((
-                                context,
-                                index,
-                              ) {
-                                final item = state.movies[index];
-                                return _movieItem(item).onTap(() {
-                                  context.pushNamed(
-                                    RouteNames.detail,
-                                    pathParameters: {'id': item.movieId},
-                                  );
-                                });
-                              }, childCount: state.movies.length),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    mainAxisSpacing: 4,
-                                    crossAxisSpacing: 4,
-                                    childAspectRatio: 0.7,
-                                  ),
+                            SliverPadding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                              ),
+                              sliver: SliverGrid(
+                                delegate: SliverChildBuilderDelegate((
+                                  context,
+                                  index,
+                                ) {
+                                  final item = state.movies[index];
+                                  return _movieItem(item).onTap(() {
+                                    context.pushNamed(
+                                      RouteNames.detail,
+                                      pathParameters: {'id': item.movieId},
+                                    );
+                                  });
+                                }, childCount: state.movies.length),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      mainAxisSpacing: 4,
+                                      crossAxisSpacing: 4,
+                                      childAspectRatio: 0.7,
+                                    ),
+                              ),
                             ),
 
                             SliverToBoxAdapter(
@@ -217,6 +222,7 @@ class _MovieLikesScreenState extends ConsumerState<MovieLikesScreen> {
     return SingleChildScrollView(
       controller: controller,
       scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: HStack(spacing: 8, [
         _genreItem(text: 'All', currentIdx: currentIdx, idx: 0),
         ...List.generate(genreNames.length, (i) {

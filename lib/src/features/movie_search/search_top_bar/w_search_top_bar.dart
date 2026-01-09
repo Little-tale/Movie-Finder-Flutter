@@ -52,7 +52,12 @@ class _SearchTopBarState extends ConsumerState<SearchTopBar> {
             ? const SizedBox()
             : Align(
                 alignment: Alignment.centerLeft,
-                child: '영찾'.text.size(24).bold.make().fittedBox(),
+                child: '영찾'.text
+                    .size(24)
+                    .bold
+                    .color(Colors.white.withValues(alpha: 0.9))
+                    .make()
+                    .fittedBox(),
               ),
       ),
     );

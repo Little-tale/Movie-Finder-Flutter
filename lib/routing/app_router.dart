@@ -7,7 +7,6 @@ import 'package:movie_finder/src/features/movie_likes/s_movie_likes_Screen.dart'
 import 'package:movie_finder/src/features/movie_list/s_movie_list.dart';
 import 'package:movie_finder/src/features/movie_search/s_movie_search.dart';
 import 'package:movie_finder/src/features/splash/w_splash.dart';
-import 'package:movie_finder/w_test.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
