@@ -11,7 +11,7 @@ import 'package:movie_finder/src/domain/entities/credits/e_tmdb_credits_entity.d
 import 'package:movie_finder/src/domain/entities/detail/movie_detail_entity.dart';
 import 'package:movie_finder/src/domain/entities/movie_video/e_movie_video_entity.dart';
 import 'package:movie_finder/src/domain/entities/product_company_entity/e_product_company_entity.dart';
-import 'package:movie_finder/src/presentation/features/movie_detail/vm_movie_detail_view_model.dart';
+import 'package:movie_finder/src/presentation/features/movie_detail/vm/vm_movie_detail_view_model.dart';
 import 'package:movie_finder/src/presentation/features/movie_detail/vm_state/movie_detail_state.dart';
 import 'package:velocity_x/velocity_x.dart';
 

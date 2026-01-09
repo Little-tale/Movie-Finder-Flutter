@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:movie_finder/src/app/routing/routes.dart';
 import 'package:movie_finder/src/presentation/common/ui/w_network_image_.dart';
 import 'package:movie_finder/src/domain/entities/simple_movie/e_simple_movie_entity.dart';
-import 'package:movie_finder/src/presentation/features/movie_list/vm_movie_list_view_model.dart';
+import 'package:movie_finder/src/presentation/features/movie_list/vm/vm_movie_list_view_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 final class NowPlayingWidget extends ConsumerWidget {

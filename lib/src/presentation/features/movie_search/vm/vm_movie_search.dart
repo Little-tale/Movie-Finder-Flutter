@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_finder/src/domain/entities/paged/e_paged_state.dart';
 import 'package:movie_finder/src/domain/entities/simple_movie/e_simple_movie_entity.dart';
 import 'package:movie_finder/src/presentation/features/movie_search/searchBar/pv_search_bar.dart';
-import 'package:movie_finder/src/presentation/features/movie_search/view_model/movie_search_state.dart';
+import 'package:movie_finder/src/presentation/features/movie_search/vm_state/movie_search_state.dart';
 import 'package:movie_finder/src/data/network/core/dio_provider.dart';
 import 'package:movie_finder/src/data/network/core/repository/movie_repository.dart';
 import 'package:movie_finder/src/data/network/core/repository/tmdb_search_repository.dart';

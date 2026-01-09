@@ -6,10 +6,9 @@ import 'package:movie_finder/src/core/app/app_size.dart';
 import 'package:movie_finder/src/core/providers/scroll_controller_provider.dart';
 import 'package:movie_finder/src/presentation/common/ui/w_network_image_.dart';
 import 'package:movie_finder/src/domain/entities/simple_movie/e_simple_movie_entity.dart';
-// import 'package:movie_finder/src/presentation/features/movie_search/search_scroll_provider/search_scroll_provider.dart';
 import 'package:movie_finder/src/presentation/features/movie_search/search_top_bar/w_search_top_bar.dart';
-import 'package:movie_finder/src/presentation/features/movie_search/view_model/movie_search_state.dart';
-import 'package:movie_finder/src/presentation/features/movie_search/view_model/vm_movie_search.dart';
+import 'package:movie_finder/src/presentation/features/movie_search/vm_state/movie_search_state.dart';
+import 'package:movie_finder/src/presentation/features/movie_search/vm/vm_movie_search.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MovieSearchScreen extends ConsumerStatefulWidget {

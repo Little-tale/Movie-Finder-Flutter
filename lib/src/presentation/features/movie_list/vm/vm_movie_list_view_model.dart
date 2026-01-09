@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:movie_finder/src/domain/entities/paged/e_paged_state.dart';
 import 'package:movie_finder/src/domain/entities/simple_movie/e_simple_movie_entity.dart';
-import 'package:movie_finder/src/presentation/features/movie_list/vs_movie_list_state.dart';
+import 'package:movie_finder/src/presentation/features/movie_list/vm_state/vs_movie_list_state.dart';
 import 'package:movie_finder/src/data/network/core/dio_provider.dart';
 import 'package:movie_finder/src/data/network/core/repository/movie_repository.dart';
 import 'package:movie_finder/src/core/utils/result.dart';

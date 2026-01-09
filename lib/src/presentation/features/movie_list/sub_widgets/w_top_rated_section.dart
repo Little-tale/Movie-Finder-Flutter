@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_finder/src/app/routing/routes.dart';
 import 'package:movie_finder/src/presentation/common/ui/w_top_rated_poster_widget.dart';
-import 'package:movie_finder/src/presentation/features/movie_list/vm_movie_list_view_model.dart';
+import 'package:movie_finder/src/presentation/features/movie_list/vm/vm_movie_list_view_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class TopRatedSection extends ConsumerWidget {
