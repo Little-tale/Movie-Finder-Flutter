@@ -1,5 +1,5 @@
-import 'package:movie_finder/src/data/DB/DAO/app_database.dart';
-import 'package:movie_finder/src/data/DB/DAO/favorite_db.dart';
+import 'package:movie_finder/src/data/db/DAO/app_database.dart';
+import 'package:movie_finder/src/data/db/DAO/favorite_db.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movie_finder/src/common/ui/w_top_rated_poster_widget.dart';
-import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
-import 'package:movie_finder/src/network/core/dio_provider.dart';
-import 'package:movie_finder/utils/result.dart';
+import 'package:movie_finder/src/presentation/common/ui/w_top_rated_poster_widget.dart';
+import 'package:movie_finder/src/domain/entities/simple_movie/e_simple_movie_entity.dart';
+import 'package:movie_finder/src/data/network/core/dio_provider.dart';
+import 'package:movie_finder/src/core/utils/result.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 // ignore: non_constant_identifier_names

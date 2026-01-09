@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_dto.dart';
+import 'package:movie_finder/src/data/tmdb/movie_list/tmdb_movie/tmdb_movie_dto.dart';
 
 part 'top_rated_dto.freezed.dart';
 part 'top_rated_dto.g.dart';

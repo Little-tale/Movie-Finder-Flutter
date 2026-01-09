@@ -1,17 +1,17 @@
-import 'package:movie_finder/src/data/Entity/credits/casts/e_tmdb_cast_entity.dart';
-import 'package:movie_finder/src/data/Entity/credits/crew/e_tmdb_crew_entity.dart';
-import 'package:movie_finder/src/data/Entity/credits/e_tmdb_credits_entity.dart';
-import 'package:movie_finder/src/data/Entity/detail/movie_detail_entity.dart';
-import 'package:movie_finder/src/data/Entity/movie_video/e_movie_video_entity.dart';
-import 'package:movie_finder/src/data/Entity/product_company_entity/e_product_company_entity.dart';
-import 'package:movie_finder/src/data/Entity/simple_movie/e_simple_movie_entity.dart';
-import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_common/vo_tmdb_common_result_dto.dart';
-import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_cast/movie_credit_dto.dart';
-import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_detail/vo_tmdb_movie_detail_dto.dart';
-import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_dto.dart';
-import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_movie/tmdb_movie_videos/tmdb_movie_videos_dto.dart';
-import 'package:movie_finder/src/data/TMDB/movie_list/up_coming/tmdb_up_coming_dto.dart';
-import 'package:movie_finder/src/network/TMDB/tmdb_image_path.dart';
+import 'package:movie_finder/src/domain/entities/credits/casts/e_tmdb_cast_entity.dart';
+import 'package:movie_finder/src/domain/entities/credits/crew/e_tmdb_crew_entity.dart';
+import 'package:movie_finder/src/domain/entities/credits/e_tmdb_credits_entity.dart';
+import 'package:movie_finder/src/domain/entities/detail/movie_detail_entity.dart';
+import 'package:movie_finder/src/domain/entities/movie_video/e_movie_video_entity.dart';
+import 'package:movie_finder/src/domain/entities/product_company_entity/e_product_company_entity.dart';
+import 'package:movie_finder/src/domain/entities/simple_movie/e_simple_movie_entity.dart';
+import 'package:movie_finder/src/data/tmdb/movie_list/tmdb_common/vo_tmdb_common_result_dto.dart';
+import 'package:movie_finder/src/data/tmdb/movie_list/tmdb_movie/tmdb_cast/movie_credit_dto.dart';
+import 'package:movie_finder/src/data/tmdb/movie_list/tmdb_movie/tmdb_movie_detail/vo_tmdb_movie_detail_dto.dart';
+import 'package:movie_finder/src/data/tmdb/movie_list/tmdb_movie/tmdb_movie_dto.dart';
+import 'package:movie_finder/src/data/tmdb/movie_list/tmdb_movie/tmdb_movie_videos/tmdb_movie_videos_dto.dart';
+import 'package:movie_finder/src/data/tmdb/movie_list/up_coming/tmdb_up_coming_dto.dart';
+import 'package:movie_finder/src/data/network/TMDB/tmdb_image_path.dart';
 
 final class MovieMapper {
   static SimpleMovieEntity fromDto(TmdbMovieDto dto) {

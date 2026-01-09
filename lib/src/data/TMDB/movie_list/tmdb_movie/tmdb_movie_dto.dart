@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:movie_finder/src/data/TMDB/movie_list/tmdb_common/product_company/vo_product_company_dto.dart';
-import 'package:movie_finder/utils/Data/nullable_date_time_converter.dart';
+import 'package:movie_finder/src/data/tmdb/movie_list/tmdb_common/product_company/vo_product_company_dto.dart';
+import 'package:movie_finder/src/core/utils/Data/nullable_date_time_converter.dart';
 
 part 'tmdb_movie_dto.freezed.dart';
 part 'tmdb_movie_dto.g.dart';

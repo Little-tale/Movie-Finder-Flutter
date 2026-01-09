@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movie_finder/routing/app_router.dart';
-import 'package:movie_finder/utils/custom_theme.dart';
+import 'package:movie_finder/src/app/routing/app_router.dart';
+import 'package:movie_finder/src/core/theme/custom_theme.dart';
 
 void main() {
   runApp(ProviderScope(child: MainApp()));

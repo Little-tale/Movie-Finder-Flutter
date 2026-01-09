@@ -1,4 +1,4 @@
-import 'package:movie_finder/src/data/DB/favorite_movie.dart';
+import 'package:movie_finder/src/data/db/favorite_movie.dart';
 import 'package:sqflite/sqflite.dart';
 
 class FavoriteDb {
