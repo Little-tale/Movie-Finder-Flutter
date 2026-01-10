@@ -380,11 +380,13 @@ class MovieDetailScreen extends ConsumerWidget {
       return Container();
     }
     return SizedBox(
-      width: 80,
+      // width: 80,
+      height: 22,
       child: NetworkImageWidget(
         imageUrl: item.logoPath,
         fit: BoxFit.fitWidth,
         color: Colors.white,
+        placeHolder: Container(),
       ),
     );
   }
