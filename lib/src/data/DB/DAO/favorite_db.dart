@@ -5,26 +5,31 @@ class FavoriteDb {
   FavoriteDb(this.db);
   final Database db;
 
+  final _favorites = 'favorites';
+  final _favoriteGenres = 'favorite_genres';
+  final movieId = 'movie_id';
+  final genreId = 'genre_id';
+
   // MARK: Create
   Future<void> insert(FavoriteMovie fav) async {
     await db.transaction((txn) async {
       // 1) favorites 테이블 저장
       await txn.insert(
-        'favorites',
+        _favorites,
         fav.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
       // 2) 장르 매핑 테이블 갱신
       await txn.delete(
-        'favorite_genres',
-        where: 'movie_id = ?',
+        _favoriteGenres,
+        where: '$movieId = ?',
         whereArgs: [fav.movieId],
       );
       for (final g in fav.genreIds) {
-        await txn.insert('favorite_genres', {
-          'movie_id': fav.movieId,
-          'genre_id': g,
+        await txn.insert(_favoriteGenres, {
+          movieId: fav.movieId,
+          genreId: g,
         }, conflictAlgorithm: ConflictAlgorithm.ignore);
       }
     });
@@ -34,13 +39,13 @@ class FavoriteDb {
   Future<void> deleteById(String movieId) async {
     await db.transaction((txn) async {
       await txn.delete(
-        'favorite_genres',
-        where: 'movie_id = ?',
+        _favoriteGenres,
+        where: '${this.movieId} = ?',
         whereArgs: [movieId],
       );
       await txn.delete(
-        'favorites',
-        where: 'movie_id = ?',
+        _favorites,
+        where: '${this.movieId} = ?',
         whereArgs: [movieId],
       );
     });
@@ -49,39 +54,49 @@ class FavoriteDb {
   // MARK: Read
   Future<bool> exists(String movieId) async {
     final rows = await db.rawQuery(
-      'SELECT 1 FROM favorites WHERE movie_id = ? LIMIT 1',
+      'SELECT 1 FROM $_favorites WHERE ${this.movieId} = ? LIMIT 1',
       [movieId],
     );
     return rows.isNotEmpty;
   }
 
   Future<FavoriteMovie?> getById(String movieId) async {
-    final rows = await db.rawQuery(
-      '''
-    SELECT f.movie_id, f.title, f.poster_path, f.liked_at,
-           COALESCE(GROUP_CONCAT(g.genre_id, '|'), '') AS genre_ids
-    FROM favorites f
-    LEFT JOIN favorite_genres g ON g.movie_id = f.movie_id
+    const sql = '''
+    SELECT
+      f.movie_id,
+      f.title,
+      f.poster_path,
+      f.liked_at,
+      COALESCE(GROUP_CONCAT(g.genre_id, '|'), '') AS genre_ids
+    FROM favorites AS f
+    LEFT JOIN favorite_genres AS g
+      ON g.movie_id = f.movie_id
     WHERE f.movie_id = ?
     GROUP BY f.movie_id
     LIMIT 1
-  ''',
-      [movieId],
-    );
+  ''';
 
+    final rows = await db.rawQuery(sql, [movieId]);
     if (rows.isEmpty) return null;
     return FavoriteMovie.fromMap(rows.first);
   }
 
   Future<List<FavoriteMovie>> getAll() async {
-    final rows = await db.rawQuery('''
-    SELECT f.movie_id, f.title, f.poster_path, f.liked_at,
-           COALESCE(GROUP_CONCAT(g.genre_id, '|'), '') AS genre_ids
-    FROM favorites f
-    LEFT JOIN favorite_genres g ON g.movie_id = f.movie_id
+    const sql = '''
+    SELECT
+      f.movie_id,
+      f.title,
+      f.poster_path,
+      f.liked_at,
+      COALESCE(GROUP_CONCAT(g.genre_id, '|'), '') AS genre_ids
+    FROM favorites AS f
+    LEFT JOIN favorite_genres AS g
+      ON g.movie_id = f.movie_id
     GROUP BY f.movie_id
     ORDER BY f.liked_at DESC
-  ''');
+  ''';
+
+    final rows = await db.rawQuery(sql);
     return rows.map(FavoriteMovie.fromMap).toList();
   }
 
@@ -110,20 +125,29 @@ class FavoriteDb {
   }
 
   Future<List<FavoriteMovie>> getByGenreId(int genreId) async {
-    final rows = await db.rawQuery(
-      '''
-    SELECT f.movie_id, f.title, f.poster_path, f.liked_at,
-           COALESCE(GROUP_CONCAT(g2.genre_id, '|'), '') AS genre_ids
-    FROM favorites f
-    INNER JOIN favorite_genres g ON g.movie_id = f.movie_id
-    LEFT JOIN favorite_genres g2 ON g2.movie_id = f.movie_id
-    WHERE g.genre_id = ?
+    const sql = '''
+    SELECT
+      f.movie_id,
+      f.title,
+      f.poster_path,
+      f.liked_at,
+      COALESCE(GROUP_CONCAT(g.genre_id, '|'), '') AS genre_ids
+
+    FROM favorites AS f
+
+    LEFT JOIN favorite_genres AS g
+      ON g.movie_id = f.movie_id
+    WHERE EXISTS (
+      SELECT 1
+      FROM favorite_genres AS fg
+      WHERE fg.movie_id = f.movie_id
+        AND fg.genre_id = ?
+    )
     GROUP BY f.movie_id
     ORDER BY f.liked_at DESC
-  ''',
-      [genreId],
-    );
+  ''';
 
+    final rows = await db.rawQuery(sql, [genreId]);
     return rows.map(FavoriteMovie.fromMap).toList();
   }
 }
